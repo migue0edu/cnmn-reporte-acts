@@ -1,0 +1,86 @@
+{{> header }}
+<h1 class="text-info mt-3 mr-3 ml-3 mb-3">Registro de empleados</h1>
+<div class="container ">
+	<form id="registro" method="POST" action="" enctype="multipart/form-data">
+		<div class="row justify-content-center">
+			<div class="card" style="width: 50rem;">
+				<div class="card-header" style="font-weight: bold;">Ingrese los datos</div>
+				<div class="card-body">
+					<div class="col-12 ">
+						<div class="input-group input-group-sm mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text maxInput">idEmpleado</span>
+							</div>
+							<input type="number" name="idEmp" id="idEmp" value="" class="form-control" minlength="1" maxlength="100" required>
+							<div class="input-group-append">
+								<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Ingrese el id o número de empleado."><i class="far fa-question-circle"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 ">
+						<div class="input-group input-group-sm mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text maxInput">Nombre</span>
+							</div>
+							<input type="text" name="nombre" id="nombre" value="" class="form-control" minlength="1" maxlength="100" required>
+							<div class="input-group-append">
+								<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Ingrese el nombre completo del empleado"><i class="far fa-question-circle"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 ">
+						<div class="input-group input-group-sm mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text maxInput">Departamento</span>
+							</div> 
+							<select class="form-control" id="depto" name="depto">					
+								<option value="" selected>Seleccione una opción</option>
+								<option value="1">DIRECCIÓN</option>
+								<option value="2">SUBDIRECCIÓN DE NANOCIENCIAS</option>
+								<option value="3">SUBDIRECCIÓN DE MICRO Y NANOTECNOLOGÍAS</option>
+								<option value="4">SUBDIRECCIÓN DE TRANSFERENCIA TECNOLÓGICA</option>	
+								<option value="5">DEPARTAMENTO DE SERVICIOS ADMINISTRATIVOS</option>					
+							</select>
+							<div class="input-group-append">
+								<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Seleccione el departamento al que pertenece el empleado." data-original-title=""><i class="far fa-question-circle"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 ">
+						<div class="input-group input-group-sm mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text maxInput">Telefono</span>
+							</div>
+							<input type="number" name="tel" id="tel" value="" class="form-control" minlength="1" maxlength="100" required>
+							<input type="number" name="ext" id="ext" value="" class="form-control" placeholder="EXT" minlength="1" maxlength="100" required>
+						</div>
+					</div>
+					<div class="col-12 ">
+						<div class="input-group input-group-sm mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text maxInput">Celular</span>
+							</div>
+							<input type="number" name="cel" id="cel" value="" class="form-control" minlength="1" maxlength="100" required>
+						</div>
+					</div>
+					<div class="col-12 ">
+						<div class="input-group input-group-sm mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text maxInput">Correo</span>
+							</div>
+							<input type="email" name="mail" id="mail" value="" class="form-control" minlength="1" maxlength="100" required>
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-4 text-center">
+							<button type="submit" class="btn btn-success btn-sm btn-block">Registrar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div style="height: 73px;"></div>
+<script type="text/javascript" src="../public/js/registro_empleados.js"></script>
+{{> footer }}
