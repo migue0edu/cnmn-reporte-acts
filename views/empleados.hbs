@@ -9,10 +9,9 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text">Buscar</span>
 					</div>
-					<input type="text" class="form-control" placeholder="Nombre del empleado" id="autoEmp"  data-idEmp="55">
+					<input type="text" class="form-control" placeholder="Numero del empleado" id="autoEmp"  data-idEmp="55">
 					<div class="input-group-append">
-						<button class="btn btn-danger" type="button" data-toggle="tooltip" data-placement="bottom" title="Limpiar" id="clFind"><i class="fas fa-times-circle"></i></button>
-						<button class="btn btn-info" type="button" data-toggle="tooltip" data-placement="bottom" title="Buscar" id="fdFind"><i class="fas fa-search"></i></button>					
+						<button class="btn btn-danger" type="button" data-toggle="tooltip" data-placement="bottom" title="Limpiar" id="clFind"><i class="fas fa-times-circle"></i></button>					
 					</div>
 				</div>
 			</div>
@@ -21,7 +20,7 @@
 			<div class="col-12 col-xs-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">idEmpleado</span>
+						<span class="input-group-text maxInput">NoEmpleado</span>
 					</div>
 					<input type="text" name="idEmp" id="idEmp" value="" class="form-control" minlength="1" maxlength="100" readonly required>
 				</div>
@@ -37,9 +36,9 @@
 			<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Departamento</span>
+						<span class="input-group-text maxInput">Area</span>
 					</div>
-					<input name="depto" id="depto" type="text" minlength="1" maxlength="1000" value="" class="form-control" readonly required>
+					<input name="area" id="area" type="text" minlength="1" maxlength="1000" value="" class="form-control" readonly required>
 				</div>
 			</div>
 		</div>
@@ -68,24 +67,24 @@
 		</div>
 	</div>
 </div>
-<div class="card ml-3 mr-3 mt-3">
+<div class="card ml-3 mr-3 mt-3" >
 	<div class="card-header">Tiempo del reporte</div>
 	<div class="card-body">
 		<div class="row">			
-			<div class="col-6">
-				<div class="input-group input-group-sm mb-3">
+			<div class="col-6 control-label" >
+				<div class="input-group  date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd"> 
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">Fecha inicio</span>
 					</div>
-					<input class="form-control text-center" id="fechaI" name="fechaI" placeholder="YYYY-MM-DD" value="" required>
+					<input class="form-control text-center" id="fechaI" name="fechaI" placeholder="YYYY-MM-DD" required>
 				</div>	
 			</div>		
 			<div class="col-6">
-				<div class="input-group input-group-sm mb-3">
+				<div class="input-group date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd">
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">Fecha fin</span>
 					</div>
-					<input class="form-control text-center d_soap" id="fechaF" name="fechaF" placeholder="YYYY-MM-DD" value="" required>
+					<input class="form-control text-center" id="fechaF" name="fechaF" placeholder="YYYY-MM-DD" required>
 				</div>	
 			</div>
 		</div>
@@ -96,136 +95,132 @@
 		</div>
 	</div>
 </div>
-<div class="card ml-3 mr-3 mt-3 mb-3">
-	<div class="card-header">Registro de actividades</div>
-	<div class="card-body">
-		<div class="row">
-			<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Titulo</span>
+<div class="card ml-3 mr-3 mt-3 mb-3" >
+	<form id="Regactividades" method="POST" enctype="multipart/form-data">
+		<div class="card-header">Registro de actividades</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text maxInput">Titulo</span>
+						</div>
+						 <textarea id="titulo" name="titulo" class="form-control" aria-label="With textarea" required></textarea>
+						<div class="input-group-append">
+							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title=""></i></span>
+						</div>
 					</div>
-					 <textarea id="titulo" name="titulo" class="form-control" aria-label="With textarea"></textarea>
-					<div class="input-group-append">
-						<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title=""></i></span>
+				</div>
+				<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text maxInput">Objetivo</span>
+						</div>
+						 <textarea class="form-control" aria-label="With textarea" id="objetivo" name="objetivo" required></textarea>
+						<div class="input-group-append">
+							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title=""><i class="far fa-question-circle"></i></span>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text maxInput">Descripción</span>
+						</div>
+						 <textarea class="form-control" aria-label="With textarea" id="descripcion" name="descripcion" required></textarea>
+						
+						<div class="input-group-append">
+							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Atributo requerido para precisar la descripción del bien o servicio cubierto por el presente concepto."><i class="far fa-question-circle"></i></span>
+						</div>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="input-group input-group-sm mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Entregable</span>
+					  </div>
+					 <input name="" type="text" minlength="1" maxlength="1000" id="entregable" name="entregable"  class="form-control" required>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="input-group  date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd">
+						<div class="input-group-prepend">
+							<span class="input-group-text maxInput">Fecha inicio</span>
+						</div>
+						<input class="form-control text-center" id="actFechaI" name="actFechaI" placeholder="YYYY-MM-DD" value="" required>
+					</div>	
+				</div>		
+				<div class="col-4">
+					<div class="input-group date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd">
+						<div class="input-group-prepend">
+							<span class="input-group-text maxInput">Fecha fin</span>
+						</div>
+						<input class="form-control text-center" id="actFechaF" name="actFechaF" placeholder="YYYY-MM-DD" required>
+					</div>	
+				</div>
+				<div class="col-4">
+					<div class="input-group input-group-sm mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Beneficio</span>
+					  </div>
+					 <input type="text" minlength="1" id="beneficio" name="beneficio" maxlength="1000"  class="form-control" required>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text maxInput">Comunicación</span>
+						</div>
+						 <input type="text" minlength="1" maxlength="1000" id="comunicacion" name="comunicacion" class="form-control" required>
+					</div>	
+				</div>		
+				<div class="col-4">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text maxInput">Entrega</span>
+						</div>
+						 <input type="text" minlength="1" maxlength="1000" id="entrega"  name="entrega" class="form-control" required>
+					</div>	
+				</div>
+				<div class="col-12">
+					<div class="input-group input-group-sm mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Observaciones</span>
+					  </div>
+					  <textarea class="form-control" id="observacion" name="observacion" aria-label="With textarea" required></textarea>
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Objetivo</span>
-					</div>
-					 <textarea class="form-control" aria-label="With textarea" id="objetivo" name="objetivo"></textarea>
-					<div class="input-group-append">
-						<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title=""><i class="far fa-question-circle"></i></span>
-					</div>
+			<div class="row justify-content-center">
+				<div class="col-6 mb-3">
+					<button type="submit" class="btn btn-info btn-sm btn-block" id="agregar">Agregar actividad</button>
 				</div>
 			</div>
-			<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Descripción</span>
+			<div class="row" style="display: none;" id="filaTabla" data-contador="0">
+				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					<div class="table-responsive">
+						<table class="table table-sm table-striped table-hover">
+							<thead class="thead-dark  text-white text-center">
+								<tr>
+									<th width="10%" style="border-radius: 7px 0 0 0;" scope="col">Numero</th>
+									<th width="30%" scope="col">Titulo</th>
+									<th width="50%" scope="col">Descripción</th>
+									<th width="10%" style="border-radius: 0 7px 0 0;" scope="col">Opción</th>					
+								</tr>
+							</thead>
+							<tbody id="bodyActividades">
+							</tbody>					
+						</table>
 					</div>
-					 <textarea class="form-control" aria-label="With textarea" id="descripcion" name="descripcion"></textarea>
-					
-					<div class="input-group-append">
-						<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Atributo requerido para precisar la descripción del bien o servicio cubierto por el presente concepto."><i class="far fa-question-circle"></i></span>
-					</div>
-				</div>
+				</div>		
 			</div>
-			<div class="col-4">
-				<div class="input-group input-group-sm mb-3">
-				  <div class="input-group-prepend">
-				    <span class="input-group-text">Entregable</span>
-				  </div>
-				 <input name="" type="text" minlength="1" maxlength="1000" id="entregable" name="entregable" value="" class="form-control" required>
+			<div class="row justify-content-center">
+				<div class="col-6 mb-3">
+					<button class="btn btn-success btn-sm btn-block " onclick="finalizar();">Finalizar</button>
 				</div>
-			</div>
-			<div class="col-4">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Fecha inicio</span>
-					</div>
-					<input class="form-control text-center" id="actFechaI" name="actFechaI" placeholder="YYYY-MM-DD" value="" required>
-				</div>	
 			</div>		
-			<div class="col-4">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Fecha fin</span>
-					</div>
-					<input class="form-control text-center d_soap" id="actFechaF" name="actFechaF" placeholder="YYYY-MM-DD" value="" required>
-				</div>	
-			</div>
-			<div class="col-4">
-				<div class="input-group input-group-sm mb-3">
-				  <div class="input-group-prepend">
-				    <span class="input-group-text">Beneficio</span>
-				  </div>
-				 <input type="text" minlength="1" id="beneficio" name="beneficio" maxlength="1000" value="" class="form-control" required>
-				</div>
-			</div>
-			<div class="col-4">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Comunicación</span>
-					</div>
-					 <input type="text" minlength="1" maxlength="1000" id="comunicacion" name="comunicacion" class="form-control" required>
-				</div>	
-			</div>		
-			<div class="col-4">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Entrega</span>
-					</div>
-					 <input type="text" minlength="1" maxlength="1000" id="entrega"  name="entrega" class="form-control" required>
-				</div>	
-			</div>
-			<div class="col-12">
-				<div class="input-group input-group-sm mb-3">
-				  <div class="input-group-prepend">
-				    <span class="input-group-text">Observaciones</span>
-				  </div>
-				  <textarea class="form-control" id="observacion" name="observacion" aria-label="With textarea"></textarea>
-				</div>
-			</div>
 		</div>
-		<div class="row justify-content-center">
-			<div class="col-6 mb-3">
-				<button  class="btn btn-info btn-sm btn-block" id="agregar">Agregar actividad</button>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"  id="">
-				<div class="table-responsive">
-					<table class="table table-sm table-striped table-hover" id="">
-						<thead class="thead-dark  text-white text-center">
-							<tr>
-								<th width="30%" style="border-radius: 7px 0 0 0;" scope="col">Titulo</th>
-								<th width="50%" scope="col">Descripción</th>
-								<th width="20%" style="border-radius: 0 7px 0 0;" scope="col">Opción</th>					
-							</tr>
-						</thead>
-						<tbody id="">
-							<tr class="text-center">
-								<td>Titulo</td>
-								<td>Descripcion de la actividad realizada</td>
-								<td>
-									<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="delActividad()"><i class="far fa-trash-alt fa-2x"></i></a>
-								</td>
-							</tr>
-						</tbody>					
-					</table>
-				</div>
-			</div>		
-		</div>
-		<div class="row justify-content-center">
-			<div class="col-6 mb-3">
-				<button class="btn btn-success btn-sm btn-block " onclick="finalizar();">Finalizar</button>
-			</div>
-		</div>		
-	</div>
+	</form>
 </div>
 <script type="text/javascript" src="../public/js/empleados.js"></script>
 {{> footer }}

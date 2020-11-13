@@ -1,3 +1,4 @@
+//creamos el objeto documento
 const documento = {
 	empleado: "",
 	fecha:{
@@ -8,17 +9,25 @@ const documento = {
 		
 	}
 }
+//inicializamos contador de actividades
+let contador = 1;
 $(document).ready( () => {
-	$('#fechaI, #fechaF').datetimepicker({
+	$("#fechaI,#fechaF").datetimepicker({
 		language:  'es',
-		viewMode: 'months',
-		format: 'yyyy-mm-dd',
-		icons: {
-			previous: 'fas fa-times-circle',
-			next: 'fa fa-chevron-circle-right'
-		}
+		format: "yyyy-mm-dd",
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
 	});
-/*	$("#autoEmp").autocomplete(
+	$("#actFechaI,#actFechaF").datetimepicker({
+		language:  'es',
+		autoclose: 1
+	});
+	/*$("#autoEmp").autocomplete(
 	{
 		minLength: 2,
 		source: (req, res) =>
@@ -35,7 +44,12 @@ $(document).ready( () => {
 			},
 		select: ( event, ui ) => {
 			$("#autoEmp").val(`(${ ui.item.codigo }) ${ ui.item.descripcion }`)
-			$("#autoEmp").attr( "data-idP", ui.item.id )
+			$("#autoEmp").attr( "data-idEmp", ui.item.id )
+			$("#idemp").val(``)
+			$("#nombre").val(``)
+			$("#area").val(``)
+			$("#mail").val(``)
+			$("#tel").val(``)
 			return false
 		}
 	})
@@ -43,11 +57,12 @@ $(document).ready( () => {
 		return $( "<li>" )
 		.append(  "<b>" + item.descripcion  )
 		.appendTo( ul )
-	}
-*/
+	}*/
+
 	$("#clFind").click(() => {
 		$("#autoEmp").val("")
-		$("#autoEmp").attr("data-idP","")
+		$("#autoEmp").attr("data-idEmp","")
+		$("#idEmp,#nombre,#area,#mail,#tel").val("")
 
 	});
 	$("#btnEmp").click( () => {
@@ -77,51 +92,62 @@ $(document).ready( () => {
 			comunicacion = $("#comunicacion").val(),
 			entrega = $("#entrega").val(),
 			observacion = $("#observacion").val()
-			act = documento.actividades
-		if(titulo && objetivo && descripcion && fechaIni && fechaFin){			
-			act.actividad = {
-				titulo : titulo,
-				objetivo : objetivo,
-				descripcion : descripcion,
-				entregable : entregable,
-				fechaIni : fechaIni,
-				fechaFin : fechaFin,
-				beneficio : beneficio,
-				comunicacion : comunicacion,
-				entrega : entrega,
-				observacion : observacion
-			}			
+		if(beneficio && comunicacion && entrega && observacion){			
+			documento.actividades[contador] = {
+				titulo,
+				objetivo,
+				descripcion,
+				entregable,
+				fechaIni,
+				fechaFin,
+				beneficio,
+				comunicacion,
+				entrega,
+				observacion
+			} 
+			document.getElementById("Regactividades").reset();
+			$("#bodyActividades").append(
+				'<tr class="text-center" id="'+contador+'">'+
+					'<td>'+contador+'</td>'+
+					'<td>'+titulo+'</td>'+
+					'<td>'+descripcion+'</td>'+
+					'<td>'+
+						'<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="delActividad('+contador+')"><i class="far fa-trash-alt fa-2x"></i></a>'+
+					'</td>'+
+				'</tr>')
+			$("#filaTabla").css("display","inline")
+			let NumAct = $("#filaTabla").attr("data-contador")
+			contador++;
+			NumAct++;	
+			$("#filaTabla").attr("data-contador",NumAct)
 		}
 	})
-/*	$("#registro").submit( ()  => {
-		event.preventDefault()
-		var form = $("#registro").serializeArray();
+});
+const finalizar = () => {
+	let NumAct = $("#filaTabla").attr("data-contador")
+	if(NumAct == "0")
+		alert("Ingrese alguna actividad")
+	else {
 		$.ajax({
-			url:"",
-			type: $("#registro").attr("method"),
+			url: "urlarchivoback",
 			dataType: "json",
-			data: form,
+			type: "post",
+			data: documento,
 			success: (response) => {
-				document.getElementById("registro").reset();
-				alert("Usuario agregado con éxito")
+				alert("Guardado con éxito")
 			},
-			error: (response) => {
+			error:(response) => {
 				alert(response)
 			}
 		})
-	});
-})
-const finalizar = () => {
-	$.ajax({
-		url: "urlarchivoback",
-		dataType: "json",
-		type: "post",
-		data: documento,
-		success: (response) => {
-			alert("Guardado con éxito")
-		},
-		error:(response) => {
-			alert(response)
-		}
-	})
-}*/
+	}
+}
+const delActividad = (id) => {
+	let NumAct = $("#filaTabla").attr("data-contador")
+	delete documento["actividades"][id]
+	$( "#"+id ).remove();
+	NumAct--;
+	$("#filaTabla").attr("data-contador",NumAct)
+	if(NumAct=="0")
+		$("#filaTabla").css("display","none")
+}
