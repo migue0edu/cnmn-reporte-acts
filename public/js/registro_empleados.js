@@ -1,9 +1,9 @@
 $(document).ready( () => {
 	$("#registro").submit( ()  => {
-		event.preventDefault()
+		event.preventDefault();
 		var form = $("#registro").serializeArray();
 		$.ajax({
-			url:"",
+			url:"http://localhost:3000/empleados",
 			type: $("#registro").attr("method"),
 			dataType: "json",
 			data: form,

@@ -9,10 +9,10 @@ class MySQL {
         this.conectado = false;
         console.log('Clase inicializada.');
         this.conection = mysql.createConnection ({
-          host: 'localhost',
-          user: 'node_test',
-          password: 'cnmn_test0',
-          database: 'bitacora_act'
+          host: process.env.DB_URL,
+          user: process.env.DB_USER,
+          password: process.env.DB_PASSW,
+          database: process.env.DB_SCHEMA
         });
   
         this.conectarDB();
