@@ -17,46 +17,55 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12 col-xs-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">NoEmpleado</span>
 					</div>
-					<input type="text" name="idEmp" id="idEmp" value="" class="form-control" minlength="1" maxlength="100" readonly required>
+					<input type="text" name="idEmp" id="idEmp" value="12345" class="form-control" minlength="1" maxlength="100" readonly required>
 				</div>
 			</div>
-			<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-5">
+			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">Nombre</span>
 					</div>
-					<input type="text" name="nombre" id="nombre" value="" class="form-control" minlength="1" maxlength="100" readonly required>
+					<input type="text" name="aPat" id="aPat" value="Cabrera" class="form-control" minlength="1" maxlength="100" readonly required>
+					<input type="text" name="aMat" id="aMat" value="Resendiz" class="form-control" minlength="1" maxlength="100" readonly required>
+					<input type="text" name="nombre" id="nombre" value="Jose Alfredo" class="form-control" minlength="1" maxlength="100" readonly required>					
 				</div>
 			</div>
-			<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">Area</span>
 					</div>
-					<input name="area" id="area" type="text" minlength="1" maxlength="1000" value="" class="form-control" readonly required>
+					<input name="area" id="area" type="text" minlength="1" maxlength="1000" value="Depto de nano ciencias" class="form-control" readonly required>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Correo:</span>
+						<span class="input-group-text maxInput">CURP</span>
 					</div>
-					<input type="text" name="mail" id="mail" value="" class="form-control" minlength="1" maxlength="100" readonly required>
+					<input name="curp" id="curp" type="text" minlength="1" maxlength="1000" value="CARA951122HDFBSLO03" class="form-control" readonly required>
 				</div>
 			</div>
-			<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+
+			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+				<div class="input-group input-group-sm mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text maxInput">Correo</span>
+					</div>
+					<input type="text" name="mail" id="mail" value="sed.silver@hotmail.com" class="form-control" minlength="1" maxlength="100" readonly required>
+				</div>
+			</div>
+			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">Telefono</span>
 					</div>
-					<input name="tel" id="tel" type="text" readonly minlength="1" maxlength="1000" value="" class="form-control" required>                                                                                                                                                                                           
+					<input name="tel" id="tel" type="text" readonly minlength="1" maxlength="1000" value="5560091848" class="form-control" required>                                                                                                                                                                                           
 				</div>
 			</div>
 		</div>
@@ -216,11 +225,14 @@
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-6 mb-3">
-					<button class="btn btn-success btn-sm btn-block " onclick="finalizar();">Finalizar</button>
+					<button class="btn btn-success btn-sm btn-block " onclick="pdf();">Finalizar</button>
 				</div>
 			</div>		
 		</div>
 	</form>
 </div>
 <script type="text/javascript" src="../public/js/empleados.js"></script>
+<script type="text/javascript" src="../public/assets/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../public/assets/jspdf.min.js"></script>
+<script type="text/javascript" src="../table/jspdf.plugin.autotable.min.js"></script>
 {{> footer }}

@@ -40,11 +40,11 @@ app.post('/empleados', (req, res) => {
     console.log( JSON.stringify(req.body) );
     
     if( req.body ){
-        let {nombre, a_pat, a_mat, clave, curp, telefono, extension, mail, depto} = req.body;
+        let {nombre, aPat, aMat, idEmp, curp, tel, ext, mail, depto} = req.body;
         mysqlConn = new MySQL();
         let queryTemplate =  'INSERT INTO usuarios ( nombres, apellido_pat, apellido_mat, clave_empleado, curp, telefono, extension, correo, roles_id_rol, departamentos_id_dept) ';
             queryTemplate += 'VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        let values = [ nombre, a_pat, a_mat, clave, curp, telefono, extension, mail, DEFAUTL_ROLE, depto];
+        let values = [ nombre, aPat, aMat, idEmp, curp, tel, ext, mail, DEFAUTL_ROLE, depto];
         let formatedQuery = mysqlConn.conection.format(queryTemplate, values);
         console.log('formatedQuery: ', formatedQuery);
         mysqlConn.ejecutarInsert( formatedQuery, (err, empleado) => {

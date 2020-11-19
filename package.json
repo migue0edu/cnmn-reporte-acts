@@ -16,6 +16,8 @@
     "express": "^4.17.1",
     "hbs": "^4.1.1",
     "jquery": "^3.5.1",
+    "jspdf": "^2.1.1",
+    "jspdf-autotable": "^3.5.13",
     "mysql": "^2.18.1",
     "popper.js": "^1.16.1",
     "yargs": "^16.1.0"

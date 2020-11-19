@@ -2,7 +2,7 @@ const mysql = require('mysql');
 
 class MySQL {
 
-    static conection;
+   static conection;
 
     /* Al contruir el objeto se manda a conectar a la base de datos */
     constructor( ){

@@ -1,19 +1,19 @@
 /* Variables de entorno */
 process.env.PORT = process.env.PORT || 3000;
-process.env.ENVIRONMENT = process.env.ENVIRONMENT || 'local';
+process.env.ENVIRONMENT = process.env.ENVIRONMENT || 'developing';
 
 const params = {
     developing: {
         db_url: 'db4free.net',
         db_user: 'cnmn_test',
         db_pass: 'cnmn_test0',
-        db_schm: 'registro-acts'
+        db_schm: 'reporte_acts'
     },
     production: {
         db_url: 'db4free.net',
         db_user: 'cnmn_test',
         db_pass: 'cnmn_test0',
-        db_schm: 'registro-acts'
+        db_schm: 'reporte-acts'
     },
     local: {
         db_url: 'localhost',

@@ -16,6 +16,7 @@ app.use(express.static(__dirname + '/views'))
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); 
 app.use('/jq', express.static(__dirname + '/node_modules/jquery/dist'));
+app.use('/table', express.static(__dirname + '/node_modules/jspdf-autotable/dist'));
 app.use('/assets', express.static(__dirname + '/public/assets'));
 app.use('/public', express.static(__dirname + '/public'));
 app.set('view engine', 'hbs');
