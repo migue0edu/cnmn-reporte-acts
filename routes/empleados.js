@@ -12,20 +12,20 @@ app.get('/empleados/:id_text', (req, res) => {
     if( input ){
         mysqlConn = new MySQL();
         let escapeId = mysqlConn.conection.escape ( `%${input}%` );
-        let query = `SELECT nombres, apellido_pat, apellido_mat, curp, telefono, correo FROM usuarios WHERE clave_empleado LIKE ${escapeId} `;
+        let query = `SELECT * FROM usuarios WHERE clave_empleado LIKE ${escapeId} `;
             query += 'ORDER BY nombres ASC LIMIT 10';
         mysqlConn.ejecutarQuery( query, (err, empleados) => {
             if (err) {
-                res.status(400).json({
-                    ok: false,
-                    error: err
-                });
+                res.json([{
+                    nombres: "Sin",
+                    apellido_pat:" ",
+                    apellido_mat:"Coincidencias"
+                }])                
             }
             else {
-                res.json({
-                    ok: true,
+                res.json(
                     empleados
-                });
+                );
             }
         });
     }

@@ -35,33 +35,36 @@ $(document).ready( () => {
 		source: (req, res) =>
 			{
 				$.ajax({
-					url:'http://localhost:3000/empleados/:id_text' ,
+					url:'http://localhost:3000/empleados/'+req.term ,
 					type: "get",
 					dataType: "json",
 					data: {
 						term: req.term
 					},
-					success: (data) => { res(data) },
-					error: (data) => {res(data)}
+					success: (data) => { 
+						res(Object.values(data))
+
+					}
 				})
 			},
 		select: ( event, ui ) => {
-			$("#autoEmp").val(`(${ ui.item.nombre }) ${ ui.item.apellidoPat }`)
+			$("#autoEmp").val(`${ ui.item.nombres } ${ ui.item.apellido_pat } ${ ui.item.apellido_mat }`)
 			$("#autoEmp").attr( "data-idEmp", ui.item.idEmp )
-			$("#idEmp").val(``)
-			("#nombre").val(``)
-			("#aPat").val(``)
-			$("#aMat").val(``)
-			$("#area").val(``)
-			$("#mail").val(``)
-			$("#tel").val(``)
-			$("#curp").val(``)
+			$("#idEmp").val(`${ui.item.clave_empleado}`)
+			$("#nombre").val(`${ui.item.nombres}`)
+			$("#aPat").val(`${ui.item.apellido_pat}`)
+			$("#aMat").val(`${ui.item.apellido_mat}`)
+			$("#area").val(`${ui.item.depto}`)
+			$("#mail").val(`${ui.item.correo}`)
+			$("#tel").val(`${ui.item.telefono}`)
+			$("#curp").val(`${ui.item.curp}`)
 			return false
 		}
 	})
 	.autocomplete( "instance" )._renderItem = ( ul, item ) => {
+		console.log(item);
 		return $( "<li>" )
-		.append(  "<b>" + item.nombre + item.apellidoPat + item.apellidoMat )
+		.append(  "<b>" + item.nombres + item.apellido_pat + item.apellido_mat )
 		.appendTo( ul )
 	}
 
@@ -196,11 +199,19 @@ const pdf = () => {
 	doc.setFontSize(14)
 	doc.text('Registro de Actividades',125,87);
 	var columns2 = ["#", "Titulo", "Objetivo", "Descripción","Entregable","Inicio","Fin","Impacto","comunicación","Entrega","Observaciones"];
-	var data2 = [[1, "Prueba", "...","...","...","...","...","....","...","...","...."]];    
+	var data2 = [];
+	for(var item in documento.actividades){
+		var elemento = documento.actividades[item]
+ 		var arr = [item];
+ 		arr = arr.concat(Object.values(elemento));
+		data2.push(arr)
+	}
+	console.log(JSON.stringify(data2));
+	//var data2 = [[1, "Prueba", "...","...","...","...","...","....","...","...","...."],[2,"ksdfkhjfsd"]];    
 	doc.autoTable(columns2,data2,
 	{ 
 		theme : 'grid',
-		margin:{ top: 100 },
+		margin:{ top: 10 },
 		startY: doc.autoTableEndPosY() + 16
 	});
 
