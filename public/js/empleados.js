@@ -49,7 +49,8 @@ $(document).ready( () => {
 			},
 		select: ( event, ui ) => {
 			$("#autoEmp").val(`${ ui.item.nombres } ${ ui.item.apellido_pat } ${ ui.item.apellido_mat }`)
-			$("#autoEmp").attr( "data-idEmp", ui.item.idEmp )
+			$("#autoEmp").attr( "data-idEmp", ui.item.clave_empleado )
+			$("#autoEmp").prop("readonly",true);
 			$("#idEmp").val(`${ui.item.clave_empleado}`)
 			$("#nombre").val(`${ui.item.nombres}`)
 			$("#aPat").val(`${ui.item.apellido_pat}`)
@@ -71,6 +72,7 @@ $(document).ready( () => {
 	$("#clFind").click(() => {
 		$("#autoEmp").val("")
 		$("#autoEmp").attr("data-idEmp","")
+		$("#autoEmp").prop("readonly",false);
 		$("#idEmp,#nombre,#area,#mail,#tel,#aPat,#aMat,#curp").val("")
 
 	});
