@@ -1,7 +1,7 @@
 {{> header }}
 <h1 class="text-info mt-3 mb-3">Generar reporte</h1>
 <div class="card ml-3 mr-3 mt-3">
-	<div class="card-header">Datos del empleado</div>
+	<div class="card-header font-weight-bold">Datos del empleado</div>
 	<div class="card-body">
 		<div class="row">
 			<div class="col-12">
@@ -11,12 +11,13 @@
 					</div>
 					<input type="text" class="form-control" placeholder="Numero del empleado" id="autoEmp"  data-idEmp="55">
 					<div class="input-group-append">
-						<button class="btn btn-danger" type="button" data-toggle="tooltip" data-placement="bottom" title="Limpiar" id="clFind"><i class="fas fa-times-circle"></i></button>					
+						<button class="btn btn-danger" type="button" data-toggle="tooltip" data-placement="bottom" title="Limpiar" id="clFind"><i class="fas fa-times-circle"></i></button>	
+						<button class="btn btn-success" type="button" data-toggle="tooltip" data-placement="bottom" title="Continuar" id="btnEmp" style="display: none;"><i class="fas fa-arrow-circle-down"></i></button>					
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" id="datosEmp" style="display: none;">
 			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
@@ -69,18 +70,13 @@
 				</div>
 			</div>
 		</div>
-		<div class="row justify-content-center">
-			<div class="col-4 text-center">
-				<button  class="btn btn-success btn-sm btn-block" id="btnEmp">Continuar</button>
-			</div>
-		</div>
 	</div>
 </div>
-<div class="card ml-3 mr-3 mt-3" >
-	<div class="card-header">Tiempo del reporte</div>
+<div class="card ml-3 mr-3 mt-3"  id="card-tiempo" style="display:none;">
+	<div class="card-header font-weight-bold">Tiempo del reporte</div>
 	<div class="card-body">
 		<div class="row">			
-			<div class="col-6 control-label" >
+			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 control-label" >
 				<div class="input-group  date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd"> 
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">Fecha inicio</span>
@@ -88,7 +84,7 @@
 					<input class="form-control text-center" id="fechaI" name="fechaI" placeholder="YYYY-MM-DD" required>
 				</div>	
 			</div>		
-			<div class="col-6">
+			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
 				<div class="input-group date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd">
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">Fecha fin</span>
@@ -97,19 +93,19 @@
 				</div>	
 			</div>
 		</div>
-		<div class="row justify-content-center">
+		<div class="row justify-content-center" id="rowBtnTiempo">
 			<div class="col-4 text-center">
 				<button class="btn btn-success btn-sm btn-block" id="btnFecha">Continuar</button>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="card ml-3 mr-3 mt-3 mb-3" >
+<div class="card ml-3 mr-3 mt-3 mb-3" id="card-actividades" style="display:none;">
 	<form id="Regactividades" method="POST" enctype="multipart/form-data">
-		<div class="card-header">Registro de actividades</div>
+		<div class="card-header font-weight-bold">Registro de actividades</div>
 		<div class="card-body">
 			<div class="row">
-				<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text maxInput">Titulo</span>
@@ -120,7 +116,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text maxInput">Objetivo</span>
@@ -131,7 +127,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text maxInput">Descripción</span>
@@ -143,7 +139,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-4">
+				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 					  <div class="input-group-prepend">
 					    <span class="input-group-text">Entregable</span>
@@ -151,7 +147,7 @@
 					 <input name="" type="text" minlength="1" maxlength="1000" id="entregable" name="entregable"  class="form-control" required>
 					</div>
 				</div>
-				<div class="col-4">
+				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group  date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd">
 						<div class="input-group-prepend">
 							<span class="input-group-text maxInput">Fecha inicio</span>
@@ -159,7 +155,7 @@
 						<input class="form-control text-center" id="actFechaI" name="actFechaI" placeholder="YYYY-MM-DD" value="" required>
 					</div>	
 				</div>		
-				<div class="col-4">
+				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd">
 						<div class="input-group-prepend">
 							<span class="input-group-text maxInput">Fecha fin</span>
@@ -167,7 +163,7 @@
 						<input class="form-control text-center" id="actFechaF" name="actFechaF" placeholder="YYYY-MM-DD" required>
 					</div>	
 				</div>
-				<div class="col-4">
+				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 					  <div class="input-group-prepend">
 					    <span class="input-group-text">Beneficio</span>
@@ -175,7 +171,7 @@
 					 <input type="text" minlength="1" id="beneficio" name="beneficio" maxlength="1000"  class="form-control" required>
 					</div>
 				</div>
-				<div class="col-4">
+				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text maxInput">Comunicación</span>
@@ -183,7 +179,7 @@
 						 <input type="text" minlength="1" maxlength="1000" id="comunicacion" name="comunicacion" class="form-control" required>
 					</div>	
 				</div>		
-				<div class="col-4">
+				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text maxInput">Entrega</span>

@@ -51,6 +51,8 @@ $(document).ready( () => {
 			$("#autoEmp").val(`${ ui.item.nombres } ${ ui.item.apellido_pat } ${ ui.item.apellido_mat }`)
 			$("#autoEmp").attr( "data-idEmp", ui.item.clave_empleado )
 			$("#autoEmp").prop("readonly",true);
+			$("#datosEmp").css("display","flex")
+			$("#btnEmp").css("display","inline")
 			$("#idEmp").val(`${ui.item.clave_empleado}`)
 			$("#nombre").val(`${ui.item.nombres}`)
 			$("#aPat").val(`${ui.item.apellido_pat}`)
@@ -65,7 +67,7 @@ $(document).ready( () => {
 	.autocomplete( "instance" )._renderItem = ( ul, item ) => {
 		console.log(item);
 		return $( "<li>" )
-		.append(  "<b>" + item.nombres + item.apellido_pat + item.apellido_mat )
+		.append(  "<b>" + item.nombres + " " + item.apellido_pat + " " + item.apellido_mat )
 		.appendTo( ul )
 	}
 
@@ -74,12 +76,15 @@ $(document).ready( () => {
 		$("#autoEmp").attr("data-idEmp","")
 		$("#autoEmp").prop("readonly",false);
 		$("#idEmp,#nombre,#area,#mail,#tel,#aPat,#aMat,#curp").val("")
+		$("#datosEmp").css("display","none")
 
 	});
 	$("#btnEmp").click( () => {
 		let idemp = $("#autoEmp").attr("data-idEmp")
-		if(idemp)
+		if(idemp){
 			documento.empleado = idemp;
+			$("#card-tiempo").css("display","flex")
+		}
 		else 
 			alert("Ingresa el empleado para continuar")
 	})
@@ -89,6 +94,8 @@ $(document).ready( () => {
 		if(inicio && fin){
 			documento.fecha.fechaI = inicio
 			documento.fecha.fechaF = fin
+			$("#card-actividades").css("display","flex")
+			$("#rowBtnTiempo").css("display","none")
 		} else
 			alert("Ingrese fecha de inicio y fin")
 	})
@@ -205,18 +212,16 @@ const pdf = () => {
 	for(var item in documento.actividades){
 		var elemento = documento.actividades[item]
  		var arr = [item];
- 		arr = arr.concat(Object.values(elemento));
+  		arr = arr.concat(Object.values(elemento));
 		data2.push(arr)
 	}
-	console.log(JSON.stringify(data2));
-	//var data2 = [[1, "Prueba", "...","...","...","...","...","....","...","...","...."],[2,"ksdfkhjfsd"]];    
+	//console.log(JSON.stringify(data2));   
 	doc.autoTable(columns2,data2,
 	{ 
 		theme : 'grid',
 		margin:{ top: 10 },
 		startY: doc.autoTableEndPosY() + 16
 	});
-
 	doc.save("reporte.pdf");
 }
 const datos = () => {
