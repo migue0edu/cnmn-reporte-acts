@@ -1,5 +1,10 @@
 {{> header }}	
 	<h1 class="text-info mt-3 mb-3">Historial de reportes</h1>
+	<script type="text/javascript">
+		$(document).ready( () => {
+			pintaHistorial();
+		})
+	</script>
 	<div class="row" >
 		<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 			<div class="table-responsive">
@@ -15,7 +20,7 @@
 							<th width="15%" style="border-radius: 0 7px 0 0;" scope="col">Opciónes</th>					
 						</tr>
 					</thead>
-					<tbody id="">
+					<tbody id="body-historial">
 						<tr class="text-center" style="vertical-align: middle;">
 							<td style="vertical-align: middle;">01</td>
 							<td style="vertical-align: middle;"><b>Jose Alfredo Cabrera Resendiz</b></td>
@@ -45,4 +50,8 @@
 			</div>
 		</div>		
 	</div>
+<script type="text/javascript" src="../public/js/historial.js"></script>	
+<script type="text/javascript" src="../public/assets/static/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../public/assets/static/jspdf.min.js"></script>
+<script type="text/javascript" src="../public/assets/static/jspdf.plugin.autotable.min.js"></script>
 {{> footer }}
