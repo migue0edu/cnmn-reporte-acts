@@ -13,11 +13,7 @@ app.use(bodyParser.json());
 
 /* Configuración de elementos estaticos */
 app.use(express.static(__dirname + '/views'))
-app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
-app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); 
-app.use('/jq', express.static(__dirname + '/node_modules/jquery/dist'));
-app.use('/table', express.static(__dirname + '/node_modules/jspdf-autotable/dist'));
-app.use('/assets', express.static(__dirname + '/public/assets'));
+app.use('/node', express.static(__dirname + '/node_modules'));
 app.use('/public', express.static(__dirname + '/public'));
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/parciales');
@@ -28,7 +24,6 @@ hbs.registerPartials(__dirname + '/views/parciales');
 app.use( require('./views/index') );
 //Rutas para consumo interno
 app.use( require('./routes/index') );
-
 
 /* Lanzar servidor */
 app.listen(process.env.PORT, () => {

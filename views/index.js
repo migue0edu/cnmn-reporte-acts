@@ -6,11 +6,13 @@ const app = express();
 app.get('/',  (req, res) =>  {
 	//home o index pagina prinicpal
 })
-app.get('/views/emp', function (req, res) {
-  res.render('empleados');
+app.get('/views/reporte', function (req, res) {
+  res.render('reporte');
 });
-app.get('/views/reg', function (req, res) {
+app.get('/views/registro', function (req, res) {
   res.render('registro_empleados');
 });
-
+app.get('/views/historial', function (req, res) {
+  res.render('historial');
+});
 module.exports = app;
