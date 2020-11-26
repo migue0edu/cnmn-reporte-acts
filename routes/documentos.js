@@ -37,29 +37,10 @@ function getDocument( query, conn, callback){
         }
         else {
             /* Se devuelven los datos del documento */
-            let documentData = {};
-            documentData.empleado = result[0].usuario_id;
-            documentData.fechaI = result[0].fecha_inicio;
-            documentData.fechaF = result[0].fecha_fin;
-            // console.log('Id documento: ' + JSON.stringify(documentData));
-            return callback(null, documentData);
+            return callback(null, result);
         }
     });
 }
-
-function getActivities( query, conn, callback){
-    conn.ejecutarQuery( query, (err, results) => {
-        if (err) {
-            return callback(err, null);
-        }
-        else {
-            /* Se devuelven los datos del documento */
-            // console.log('Id documento: ' + JSON.stringify(documentData));
-            return callback(null, results);
-        }
-    });
-}
-
 
 app.post('/documentos', (req, res) => {
     let mysqlConn = null;
@@ -125,25 +106,8 @@ app.post('/documentos', (req, res) => {
 
                 });
 
-
             }
 
-
-        });
-
-        mysqlConn.ejecutarInsert( formatedQuery, (err, result) => {
-            if (err) {
-                res.status(400).json({
-                    ok: false,
-                    mensaje: "Error al guardar documento",
-                    error: err
-                });
-            }
-            else {
-                /* Una vez guardado el documento, se recupera el Id generado en la bd */
-                insertedRowId = result.insertId;
-                console.log('Id documento: ' + insertedRowId);
-            }
         });
 
     }else{
@@ -164,7 +128,8 @@ app.get('/documentos/:id', (req, res) => {
     if( idDocument ){
         mysqlConn = new MySQL();
         let escapeId = mysqlConn.conection.escape ( `${idDocument}` );
-        let query = `SELECT fecha_inicio, fecha_fin, usuarios_id FROM documentos WHERE id_doc = ${escapeId} ;`;
+        let query  = `SELECT fecha_inicio, fecha_fin, usuarios_id, actividades.* FROM documentos INNER JOIN actividades `;
+            query += `ON id_doc = documentos_id_doc where id_doc = ${idDocument};`
         console.log('Query Documento: ' + query);
 
         getDocument( query, mysqlConn, (err, db_doc) => {
@@ -172,122 +137,84 @@ app.get('/documentos/:id', (req, res) => {
                 hayError = true;
                 mensaje = "Error al obtener documento";
             }else{
-                documento.empleado = db_doc.usuarios_id;
-                documento.fecha.fechaI = db_doc.fechaI;
-                documento.fecha.fechaF = db_doc.fechaF;
+                console.log('db_doc: ' + JSON.stringify(db_doc));
 
-                mysqlConn.ejecutarQuery( query, (err, result) => {
-                    if (err) {
-                        hayError = true;
-                        mensaje = "Error al obtener actividades"
+                if( db_doc ){
+                    
+                    console.log('There is a document!');
+                    documento.fecha.fechaI = db_doc[0].fecha_inicio;
+                    documento.fecha.fechaF = db_doc[0].fecha_fin;
+                    documento.empleado = db_doc[0].usuarios_id;
+
+                    let index = 0;
+                    for(let registro of db_doc){
+                        documento.actividades[index++] = {
+                            titulo: registro.actividad,
+                            objetivo: registro.objetivo,
+                            descripcion: registro.descripcion,
+                            entregable: registro.entregable,
+                            fechaIni: registro.inicio_act,
+                            fechaFin: registro.fin_act,
+                            beneficio: registro.impacto_beneficio,
+                            comunicacion: registro.medio_comunicacion,
+                            entrega: registro.medio_entrega,
+                            observacion: registro.observaciones
+                        };
+
                     }
-                    else {
-                        let index = 0;
-                        documento.actividades = {};
-                        console.log('Get actividades: ', JSON.stringify(result));
-                        for (const actividad of result) {
-                            console.log('Actividad: ', JSON.stringify(actividad));
-                            documento.actividades[index] = {
-                                titulo: actividad.actividad,
-                                objetivo: actividad.objetivo ,
-                                descripcion: actividad.descripcion ,
-                                entregable: actividad.entrgable ,
-                                fechaIni: actividad.inicio_act ,
-                                fechaFin: actividad.fin_act ,
-                                beneficio: actividad.impacto_beneficio ,
-                                comunicacion: actividad.medio_comunicacion ,
-                                entrega: actividad.medio_entrega ,
-                                observacion: actividad.observaciones
-                            };
-                            index++;
-                        }
-                        console.log('Document before getactividades: ', JSON.stringify(documento));
-                    }
-                });
+
+                }
             }
+
+            console.log('Res Documento;', JSON.stringify(documento));
+            hayError ? res.status(400).json({ ok: false, mensaje, error: err }) : res.json({documento});
+
         });
 
-        
-        if( documento.empleado ){
-            /* Obtener actividades del documento */
-            query  = 'SELECT id_act, actividad, objetivo, descripcion, entregable, inicio_act, fin_act, impacto_beneficio, medio_comunicacion, medio_entrega, observaciones FROM actividades ';
-            query += `WHERE documentos_id_doc = ${escapeId} ;`;
-            console.log('Query Actividades: ' + query);
-            getActivities( query, mysqlConn, (err, db_acts) => {
-                if (err) {
-                    hayError = true;
-                    mensaje = "Error al obtener actividades"
-                }else{
-                    let index = 0;
-                    documento.actividades = {};
-                    console.log('Get actividades: ', JSON.stringify(db_acts));
-                    for (const actividad of db_acts) {
-                        documento.actividades[index] = {
-                            titulo: actividad.actividad,
-                            objetivo: actividad.objetivo ,
-                            descripcion: actividad.descripcion ,
-                            entregable: actividad.entrgable ,
-                            fechaIni: actividad.inicio_act ,
-                            fechaFin: actividad.fin_act ,
-                            beneficio: actividad.impacto_beneficio ,
-                            comunicacion: actividad.medio_comunicacion ,
-                            entrega: actividad.medio_entrega ,
-                            observacion: actividad.observaciones
-                        };
-                        index++;
-                    }
+    }
+
+});
+
+app.get('/documentos', (req, res) => {
+    let mysqlConn = null;
+    let documentos = [];
+    let documentosObj = {};
+    let hayError = false;
+    let mensaje = '';
+
+    mysqlConn = new MySQL();
+    let query  = `SELECT id_doc, fecha_inicio, fecha_fin, usuarios.nombres, usuarios.apellido_pat, usuarios.apellido_mat, departamentos.nombre as departamento `;
+        query += `FROM documentos INNER JOIN usuarios ON usuarios_id = id INNER JOIN departamentos ON usuarios.departamentos_id_dept = id_dept;`;
+    console.log('Query Documento: ' + query);
+
+    getDocument( query, mysqlConn, (err, db_doc) => {
+        if(err){
+            hayError = true;
+            mensaje = "Error al obtener documento";
+        }else{
+            console.log('db_doc: ' + JSON.stringify(db_doc));
+
+            if( db_doc ){
+                console.log('There are documents!');
+                for(let registro of db_doc){
+
+                    documentos.push({
+                        id: registro.id_doc,
+                        fechaInicio: registro.fecha_inicio,
+                        fechaFin: registro.fecha_fin,
+                        nombreCompleto: `${registro.nombres} ${registro.apellido_pat} ${registro.apellido_mat}`,
+                        departamento: registro.departamento
+                    });
+
                 }
-            });
+            }
         }
 
-        // mysqlConn.ejecutarQuery( query, (err, result) => {
-        //     if (err) {
-        //         hayError = true;
-        //         mensaje = 'Error al obtener documento';
-        //     }
-        //     else {
-        //         documento.empleado = result.usuario_id;
-        //         documento.fecha.fechaI = result.fecha_inicio;
-        //         documento.fecha.fechaF = result.fecha_fin;
-        //     }
-        // });
+        console.log('Res Documento;', JSON.stringify(documentos));
+        documentosObj.objeto = documentos;
+        hayError ? res.status(400).json({ ok: false, mensaje, error: err }) : res.json({documentosObj});
 
-        // if( !hayError ){
-
-        //     /* Obtener actividades del documento */
-        //     query  = 'SELECT id_act, actividad, objetivo, descripcion, entregable, inicio_act, fin_act, impacto_beneficio, medio_comunicacion, medio_entrega, observaciones FROM actividades ';
-        //     query += `WHERE documentos_id_doc = ${escapeId} ;`;
-        //     console.log('Query Actividades: ' + query);
-        //     mysqlConn.ejecutarQuery( query, (err, result) => {
-        //         if (err) {
-        //             hayError = true;
-        //             mensaje = "Error al obtener actividades"
-        //         }
-        //         else {
-        //             let index = 0;
-        //             documento.actividades = {};
-        //             for (const actividad of result) {
-        //                 documento.actividades[index] = {
-        //                     titulo: result.actividad,
-        //                     objetivo: result.objetivo ,
-        //                     descripcion: result.descripcion ,
-        //                     entregable: result.entrgable ,
-        //                     fechaIni: result.inicio_act ,
-        //                     fechaFin: result.fin_act ,
-        //                     beneficio: result.impacto_beneficio ,
-        //                     comunicacion: result.medio_comunicacion ,
-        //                     entrega: result.medio_entrega ,
-        //                     observacion: result.observaciones
-        //                 };
-        //                 index++;
-        //             }
-        //         }
-        //     });
-
-        // }
-        console.log('Res Documento;', JSON.stringify(documento));
-        hayError ? res.status(400).json({ ok: false, mensaje, error: err }) : res.json({documento});
-    }
+    });
 
 });
 

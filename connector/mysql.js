@@ -7,7 +7,6 @@ class MySQL {
     /* Al contruir el objeto se manda a conectar a la base de datos */
     constructor( ){
         this.conectado = false;
-        console.log('Clase inicializada.');
         this.conection = mysql.createConnection ({
           host: process.env.DB_URL,
           user: process.env.DB_USER,
@@ -31,7 +30,6 @@ class MySQL {
                 return;
             }
             this.conectado = true;
-            console.log('Conectado a la base de datos.');
         });
     }
 

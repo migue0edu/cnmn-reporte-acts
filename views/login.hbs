@@ -1,0 +1,46 @@
+{{> header }}
+<h1 class="text-info mt-3 mr-3 ml-3 mb-3">Login de empleados</h1>
+<div class="container ">
+	<form id="registro" method="POST" action="" enctype="multipart/form-data">
+		<div class="row justify-content-center">
+			<div class="card" style="width: 50rem;">
+				<div class="card-header" style="font-weight: bold;">Ingrese los datos</div>
+				<div class="card-body">
+					<div class="col-12 ">
+						<div class="input-group input-group-sm mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text maxInput">Clave Empleado</span>
+							</div>
+							<input type="text" name="usuario" id="usuario" value="" class="form-control" minlength="1" maxlength="100" required>
+							<div class="input-group-append">
+								<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Ingrese su núemro de empleado."><i class="far fa-question-circle"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 ">
+						<div class="input-group input-group-sm mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text maxInput">CURP</span>
+							</div>
+							<input type="text" name="curp" id="curp" value="" class="form-control" minlength="1" maxlength="20" required>
+							<div class="input-group-append">
+								<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Ingrese su CURP"><i class="far fa-question-circle"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-4 text-center">
+							<button type="button" class="btn btn-success btn-sm btn-block" id="env_btn" >Entrar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+            <div class="card alert alert-danger" id="msg-box" style="width: 50rem;">
+
+            </div>
+		</div>
+	</form>
+</div>
+<div style="height: 73px;"></div>
+<script type="text/javascript" src="../public/js/login.js"></script>
+{{> footer }}
