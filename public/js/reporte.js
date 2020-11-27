@@ -187,8 +187,8 @@ const pdf = () => {
     //Cabecera
 	doc.addImage(poli, 'JPEG', 49, 10, 50, 30)
 	doc.setFontSize(15)
-	doc.text('Instituto politecnico Nacional',114,18);
-	doc.text('Secretaria de Innovación e integración Social',95,24);
+	doc.text('Instituto Politecnico Nacional',114,18);
+	doc.text('Secretaria de Innovación e Integración Social',95,24);
 	doc.setFontSize(12)
 	doc.text('Centro de Nanociencias y Micro y Nanotecnologías',100,30);
 	doc.addImage(logo, 'JPEG', 206, 10, 25, 25)

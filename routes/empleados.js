@@ -70,4 +70,38 @@ app.post('/empleados', (req, res) => {
 
 });
 
+app.get('/empleado/:id', (req, res) => {
+    /* Obtener los datos del usuario */
+
+    let mysqlConn = null;
+    let input = req.params.id || '';
+    console.log('Id: ' + input);
+    if( input ){
+        mysqlConn = new MySQL();
+        let escapeId = mysqlConn.conection.escape ( `${input}` );
+        let query = `SELECT * FROM usuarios WHERE id = ${escapeId};`;
+        mysqlConn.ejecutarQuery( query, (err, db_user) => {
+            if (err) {
+                res.json({
+                    ok: false,
+                    error: err
+                });             
+            }
+            else {
+                res.json({
+                    id: db_user[0].id,
+                    nombre: db_user[0].nombres,
+                    aPat: db_user[0].apellido_pat,
+                    aMat: db_user[0].apellido_mat,
+                    curp: db_user[0].curp,
+                    tel: db_user[0].telefono,
+                    ext: db_user[0].extension,
+                    correo: db_user[0].correo,
+                    depto: db_user[0].departamentos_id_dept
+                });
+            }
+        });
+    }
+});
+
 module.exports = app;

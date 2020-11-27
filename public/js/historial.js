@@ -10,12 +10,24 @@ const pintaHistorial = () => {
 			$.each(response, function( index, value ) {
 				let fecha = "", estado = "", clase = "", opciones = ""
 				value.creacion == null ? fecha = value.creacion : fecha = value.creacion.split("T")[0];
-				value.estado == 0 ? estado = "Pendiente" : estado = "Aceptado"
-				value.estado == 0 ? clase = "text-warning" : clase = "text-success"
+				switch(value.estado){
+					case 0:
+						estado = "Pendiente";
+						clase = "text-warning";
+					break;
+					case 1:
+						estado = "Aceptado";
+						clase = "text-success";
+					break;
+					case 2:
+						estado = "Rechazado"
+						clase = "text-danger"
+					break;
+				}
 				if(value.estado == 0)
 					opciones = '<a class="text-danger" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
-							   '<a class="text-success" data-placement="bottom" title="Aceptar reporte" onclick="solicitud('+value.id+')"><i class="fas fa-check-circle fa-2x"></i></a> &nbsp'+
-							   '<a class="text-danger" data-placement="bottom" title="Cancelar reporte" onclick="solicitud('+value.id+')"><i class="fas fa-times-circle fa-2x"></i></a>'
+							   '<a class="text-success" data-placement="bottom" title="Aceptar reporte" onclick="revision('+value.id+',1)"><i class="far fa-check-circle fa-2x"></i></a> &nbsp'+
+							   '<a class="text-danger" data-placement="bottom" title="Cancelar reporte" onclick="revision('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>'
 				else
 					opciones ='<a class="text-danger" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'
 			  	$("#body-historial").append(
@@ -40,7 +52,7 @@ const pintaHistorial = () => {
 const solicitud = (id) => {
 	//traemos el objeto con todos los datos del reporte
 	$.ajax({
-		url: "http://localhost:3000/"+id,
+		url: "http://localhost:3000/documentos"+id,
 		dataType: "json",
 		type: "get",
 		success: (response) => {
@@ -54,7 +66,21 @@ const solicitud = (id) => {
 			alert(response)
 		}
 	});
-
+}
+const revision = (id,tipo) => {
+	$.ajax({
+		url: "http://localhost:3000/documentos/"+id,
+		dataType:"json",
+		type:"put",
+		data:{tipo},
+		success:(response) => {
+			alert("Registro actualizado con éxito")
+			location.reload();
+		},
+		error:(response) => {
+			alert("A ocurrido un error al actualizar el registro")
+		}
+	})
 }
 const pdf = (reporte,empleado) => {
 	var f = new Date();
