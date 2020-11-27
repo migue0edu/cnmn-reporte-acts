@@ -40,6 +40,7 @@ app.post('/empleados', (req, res) => {
     console.log( JSON.stringify(req.body) );
     
     if( req.body ){
+        console.log(req.body.nombre)
         let {nombre, aPat, aMat, idEmp, curp, tel, ext, mail, depto} = req.body;
         mysqlConn = new MySQL();
         let queryTemplate =  'INSERT INTO usuarios ( nombres, apellido_pat, apellido_mat, clave_empleado, curp, telefono, extension, correo, roles_id_rol, departamentos_id_dept) ';

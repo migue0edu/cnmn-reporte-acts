@@ -1,20 +1,33 @@
+$(document).ready( () => {
+	pintaHistorial();
+});
 const pintaHistorial = () => {
 	$.ajax({
-		url: "urlarchivoback",
+		url: "http://localhost:3000/documentos",
 		dataType: "json",
-		type: "post"
+		type: "get",
 		success: (response) => {
-			$.each(response.objeto, function( index, value ) {
+			$.each(response, function( index, value ) {
+				let fecha = "", estado = "", clase = "", opciones = ""
+				value.creacion == null ? fecha = value.creacion : fecha = value.creacion.split("T")[0];
+				value.estado == 0 ? estado = "Pendiente" : estado = "Aceptado"
+				value.estado == 0 ? clase = "text-warning" : clase = "text-success"
+				if(value.estado == 0)
+					opciones = '<a class="text-danger" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
+							   '<a class="text-success" data-placement="bottom" title="Aceptar reporte" onclick="solicitud('+value.id+')"><i class="fas fa-check-circle fa-2x"></i></a> &nbsp'+
+							   '<a class="text-danger" data-placement="bottom" title="Cancelar reporte" onclick="solicitud('+value.id+')"><i class="fas fa-times-circle fa-2x"></i></a>'
+				else
+					opciones ='<a class="text-danger" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'
 			  	$("#body-historial").append(
 					'<tr class="text-center" style="vertical-align: middle;">'+
-						'<td style="vertical-align: middle;">'+value.folio+'</td>'+
-						'<td style="vertical-align: middle;"><b>'+value.nombre+'</b></td>'+
-						'<td style="vertical-align: middle;">'+value.area+'</td>'+
-						'<td style="vertical-align: middle;">'+value.genaracion+'</td>'+
-						'<td style="vertical-align: middle;">'+value.periodo+'</td>'+
-						'<td style="vertical-align: middle;" class="text-success"><b>'+value.estado+'</b></td>'+
+						'<td style="vertical-align: middle;">'+value.id+'</td>'+
+						'<td style="vertical-align: middle;"><b>'+value.nombreCompleto+'</b></td>'+
+						'<td style="vertical-align: middle;">'+value.departamento+'</td>'+
+						'<td style="vertical-align: middle;">'+fecha+'</td>'+
+						'<td style="vertical-align: middle;">'+value.fechaInicio.split("T")[0]+" Al "+value.fechaFin.split("T")[0] +'</td>'+
+						'<td style="vertical-align: middle;" class="'+clase+'"><b>'+estado+'</b></td>'+
 						'<td style="vertical-align: middle;">'+
-							'<a class="text-danger" data-placement="bottom" title="Visualizar PDF"><i class="far fa-file-pdf fa-2x"></i></a>'+
+							opciones+
 						'</td>'+
 					'</tr>');
 			});
@@ -27,13 +40,12 @@ const pintaHistorial = () => {
 const solicitud = (id) => {
 	//traemos el objeto con todos los datos del reporte
 	$.ajax({
-		url: "urlarchivoback",
+		url: "http://localhost:3000/"+id,
 		dataType: "json",
-		type: "post",
-		data:{id},
+		type: "get",
 		success: (response) => {
 			//debe de ser el objeto tal cual lo estructuramos en el archivo reporte.js y otro objeto con los datos del empleado
-			var reporte = response.reporte
+			var reporte = response.documento
 			var empleado = response.empleado
 			pdf(reporte,empleado);
 
@@ -41,6 +53,7 @@ const solicitud = (id) => {
 		error:(response) => {
 			alert(response)
 		}
+	});
 
 }
 const pdf = (reporte,empleado) => {
@@ -71,7 +84,7 @@ const pdf = (reporte,empleado) => {
 	doc.printingHeaderRow = true;
 	var columns = ["Apellido Paterno", "Apellido Materno", "Nombre(s)", "No.empleado","CURP","Telefono","Correo","Area"];
 	datos();
-	var data = [[empleado.paterno, empleado.materno, empleado.nombres,empleado.numero,empleado.curp,empleado.telefono,empleado.correo,empleado.area];    
+	var data = [empleado.paterno, empleado.materno, empleado.nombres,empleado.numero,empleado.curp,empleado.telefono,empleado.correo,empleado.area];    
 	doc.autoTable(columns,data,
 	{ 
 		theme : 'grid',

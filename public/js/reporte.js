@@ -6,7 +6,7 @@ const documento = {
 		fechaF: ""
 	},
 	actividades:{
-		
+
 	}
 }
 //inicializamos contador de actividades
@@ -49,7 +49,7 @@ $(document).ready( () => {
 			},
 		select: ( event, ui ) => {
 			$("#autoEmp").val(`${ ui.item.nombres } ${ ui.item.apellido_pat } ${ ui.item.apellido_mat }`)
-			$("#autoEmp").attr( "data-idEmp", ui.item.clave_empleado )
+			$("#autoEmp").attr( "data-idEmp", ui.item.id )
 			$("#autoEmp").prop("readonly",true);
 			$("#datosEmp").css("display","flex")
 			$("#btnEmp").css("display","inline")
@@ -83,6 +83,7 @@ $(document).ready( () => {
 		let idemp = $("#autoEmp").attr("data-idEmp")
 		if(idemp){
 			documento.empleado = idemp;
+			$("#btnEmp").css("display","none")
 			$("#card-tiempo").css("display","flex")
 		}
 		else 
@@ -110,7 +111,7 @@ $(document).ready( () => {
 			comunicacion = $("#comunicacion").val(),
 			entrega = $("#entrega").val(),
 			observacion = $("#observacion").val()
-		if(beneficio && comunicacion && entrega && observacion){			
+		if(beneficio && comunicacion && entrega && observacion && fechaIni && fechaFin){			
 			documento.actividades[contador] = {
 				titulo,
 				objetivo,
@@ -122,7 +123,7 @@ $(document).ready( () => {
 				comunicacion,
 				entrega,
 				observacion
-			} 
+			}
 			document.getElementById("Regactividades").reset();
 			$("#bodyActividades").append(
 				'<tr class="text-center" id="'+contador+'">'+
@@ -147,12 +148,17 @@ const finalizar = () => {
 		alert("Ingrese alguna actividad")
 	else {
 		$.ajax({
-			url: "urlarchivoback",
+			url: "http://localhost:3000/documentos",
 			dataType: "json",
 			type: "post",
-			data: documento,
+			contentType: "application/json",
+			data: JSON.stringify(documento),
 			success: (response) => {
-				alert("Guardado con éxito")
+				if(response.ok===true){
+					alert("Guardado con éxito")
+					pdf();
+				}else 
+					alert("Error al gusrdar el documento")				
 			},
 			error:(response) => {
 				alert(response)

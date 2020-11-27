@@ -53,12 +53,14 @@ app.post('/documentos', (req, res) => {
     
     if( req.body ){
         const documento = req.body;
-        
+        var f = new Date();
+        var d = f.toISOString();
+        var fecha = d.split("T")[0];
         mysqlConn = new MySQL();
-        queryTemplate =  'INSERT INTO documentos ( fecha_inicio, fecha_fin, usuarios_id ) ';
-        queryTemplate += 'VALUES ( ?, ?, ? )';
+        queryTemplate =  'INSERT INTO documentos ( fecha_inicio, fecha_fin, usuarios_id,fecha_creacion ) ';
+        queryTemplate += 'VALUES ( ?, ?, ?, ? )';
         
-        values = [ documento.fecha.fechaI, documento.fecha.fechaF, documento.empleado ];
+        values = [ documento.fecha.fechaI, documento.fecha.fechaF, documento.empleado,fecha ];
         formatedQuery = mysqlConn.conection.format(queryTemplate, values);
         console.log('formatedQuery: ', formatedQuery);
 
@@ -77,8 +79,8 @@ app.post('/documentos', (req, res) => {
                 let insertValues = [];
                 queryTemplate  = 'INSERT INTO actividades ( actividad, objetivo, descripcion, entregable, inicio_act, fin_act, impacto_beneficio, medio_comunicacion, medio_entrega, observaciones, documentos_id_doc ) VALUES ';
                 for (const actividadObj of actividades) {
-                    let {titulo, objetivo, descripcion, entregable, actFechaI, actFechaF, beneficio, comunicacion, entrega, observacion } = actividadObj;    
-                    insertValues.push( `( '${titulo}', '${objetivo}', '${descripcion}', '${entregable}', '${actFechaI}', '${actFechaF}', '${beneficio}', '${comunicacion}', '${entrega}', '${observacion}', '${documentId}' )` );
+                    let {titulo, objetivo, descripcion, entregable, fechaIni, fechaFin, beneficio, comunicacion, entrega, observacion } = actividadObj;    
+                    insertValues.push( `( '${titulo}', '${objetivo}', '${descripcion}', '${entregable}', '${fechaIni}', '${fechaFin}', '${beneficio}', '${comunicacion}', '${entrega}', '${observacion}', '${documentId}' )` );
                 }
                 queryTemplate = queryTemplate + insertValues.join(',') + ';';
                 console.log('formatedQuery: ', queryTemplate);
@@ -183,7 +185,7 @@ app.get('/documentos', (req, res) => {
     let mensaje = '';
 
     mysqlConn = new MySQL();
-    let query  = `SELECT id_doc, fecha_inicio, fecha_fin, usuarios.nombres, usuarios.apellido_pat, usuarios.apellido_mat, departamentos.nombre as departamento `;
+    let query  = `SELECT id_doc, fecha_inicio, fecha_fin, fecha_creacion,estado, usuarios.nombres, usuarios.apellido_pat, usuarios.apellido_mat, departamentos.nombre as departamento `;
         query += `FROM documentos INNER JOIN usuarios ON usuarios_id = id INNER JOIN departamentos ON usuarios.departamentos_id_dept = id_dept;`;
     console.log('Query Documento: ' + query);
 
@@ -202,6 +204,8 @@ app.get('/documentos', (req, res) => {
                         id: registro.id_doc,
                         fechaInicio: registro.fecha_inicio,
                         fechaFin: registro.fecha_fin,
+                        creacion:registro.fecha_creacion,
+                        estado:registro.estado,
                         nombreCompleto: `${registro.nombres} ${registro.apellido_pat} ${registro.apellido_mat}`,
                         departamento: registro.departamento
                     });
@@ -211,8 +215,8 @@ app.get('/documentos', (req, res) => {
         }
 
         console.log('Res Documento;', JSON.stringify(documentos));
-        documentosObj.objeto = documentos;
-        hayError ? res.status(400).json({ ok: false, mensaje, error: err }) : res.json({documentosObj});
+        let response = documentos;
+        hayError ? res.status(400).json({ ok: false, mensaje, error: err }) : res.json(response);
 
     });
 

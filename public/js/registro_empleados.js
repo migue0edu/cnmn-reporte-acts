@@ -10,6 +10,7 @@ $(document).ready( () => {
 			success: (response) => {
 				document.getElementById("registro").reset();
 				alert("Usuario agregado con éxito")
+				window.location.assign("http://localhost:3000/views/reporte")
 			},
 			error: (response) => {
 				alert(response)
