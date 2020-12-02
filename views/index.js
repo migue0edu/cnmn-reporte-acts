@@ -15,7 +15,7 @@ app.get('/views/registro', function (req, res) {
 app.get('/views/historial', function (req, res) {
   res.render('historial');
 });
-// app.get('/views/login', function (req, res) {
-//   res.render('login');
-// });
+app.get('/views/login', function (req, res) {
+	res.render('login');
+});
 module.exports = app;

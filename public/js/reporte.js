@@ -187,15 +187,16 @@ const pdf = () => {
     //Cabecera
 	doc.addImage(poli, 'JPEG', 49, 10, 50, 30)
 	doc.setFontSize(15)
-	doc.text('Instituto Politecnico Nacional',114,18);
-	doc.text('Secretaria de Innovación e Integración Social',95,24);
+	doc.text('Instituto Politécnico Nacional',114,18);
+	doc.text('Secretaría de Innovación e Integración Social',95,24);
 	doc.setFontSize(12)
 	doc.text('Centro de Nanociencias y Micro y Nanotecnologías',100,30);
 	doc.addImage(logo, 'JPEG', 206, 10, 25, 25)
 	doc.setFontSize(15)
-	doc.text('Designación y seguimineto de actividades laborales para el personal del CNMN.',18,48);
-	doc.setFontSize(12)
-	doc.text("Fecha:"+f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear(),245,48)
+	doc.text('Designación y seguimiento  de actividades laborales para el personal del CNMN.',18,48);
+	doc.setFontSize(11)
+	doc.text("Fecha de generación: "+f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear(),214,45)
+	doc.text("Periodo de reporte: "+documento.fecha.fechaI+" A "+documento.fecha.fechaF,214,51)
 	doc.setFontSize(14)
 	doc.text('Datos del empleado',130,58);
 	//Generamos datos del empleado

@@ -1,43 +1,49 @@
 {{> header }}
-<h1 class="text-info mt-3 mr-3 ml-3 mb-3">Login de empleados</h1>
+<style type="text/css">
+	
+</style>
+<h1 class="mb-4" style="color:rgba(104, 36, 68, 0.98); margin-top: 90px;">Login CNMN</h1>
 <div class="container ">
 	<form id="registro" method="POST" action="" enctype="multipart/form-data">
 		<div class="row justify-content-center">
 			<div class="card" style="width: 50rem;">
-				<div class="card-header" style="font-weight: bold;">Ingrese los datos</div>
+				<div class="card-header text-center panel-title" style="font-size: 30px;">Ingrese los datos</div>
 				<div class="card-body">
 					<div class="col-12 ">
-						<div class="input-group input-group-sm mb-3">
+						<div class="input-group  mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text maxInput">Clave Empleado</span>
+								<span class="input-group-text maxInput"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="text" name="usuario" id="usuario" value="" class="form-control" minlength="1" maxlength="100" required>
+							<input type="text" name="usuario" id="usuario" placeholder="Número de empleado" value="" class="form-control" minlength="1" maxlength="100" required>
 							<div class="input-group-append">
 								<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Ingrese su núemro de empleado."><i class="far fa-question-circle"></i></span>
 							</div>
 						</div>
 					</div>
 					<div class="col-12 ">
-						<div class="input-group input-group-sm mb-3">
+						<div class="input-group  mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text maxInput">CURP</span>
+								<span class="input-group-text maxInput"><i class="fas fa-address-card"></i></span>
 							</div>
-							<input type="text" name="curp" id="curp" value="" class="form-control" minlength="1" maxlength="20" required>
+							<input type="text" name="curp" id="curp" value="" style="text-transform:uppercase;" placeholder="CURP" class="form-control" minlength="1" maxlength="20" required>
 							<div class="input-group-append">
 								<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Ingrese su CURP"><i class="far fa-question-circle"></i></span>
 							</div>
 						</div>
 					</div>
 					<div class="row justify-content-center">
-						<div class="col-4 text-center">
-							<button type="button" class="btn btn-success btn-sm btn-block" id="env_btn" >Entrar</button>
+						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 text-center mb-1">
+							<button type="button" class="btn btn-success btn-block" id="env_btn" ><i class="fas fa-sign-in-alt"></i> Iniciar sesión</button>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 text-center mb-1">
+							<a href="/views/registro" type="button" class="btn btn-info btn-block"><i class="fas fa-plus-circle"></i> Registrarse</a>
 						</div>
 					</div>
 				</div>
 			</div>
-            <div class="card alert alert-danger" id="msg-box" style="width: 50rem;">
+            <!-- <div class="card alert alert-danger" id="msg-box" style="width: 50rem;">
 
-            </div>
+            </div> -->
 		</div>
 	</form>
 </div>
