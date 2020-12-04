@@ -79,7 +79,7 @@ app.get('/empleado/:id', (req, res) => {
     if( input ){
         mysqlConn = new MySQL();
         let escapeId = mysqlConn.conection.escape ( `${input}` );
-        let query = `SELECT * FROM usuarios WHERE id = ${escapeId};`;
+        let query = `select usuarios.*, departamentos.nombre as depto from usuarios, departamentos WHERE id = ${escapeId} AND  departamentos_id_dept = id_dept ;`;
         mysqlConn.ejecutarQuery( query, (err, db_user) => {
             if (err) {
                 res.json({
@@ -93,11 +93,12 @@ app.get('/empleado/:id', (req, res) => {
                     nombre: db_user[0].nombres,
                     aPat: db_user[0].apellido_pat,
                     aMat: db_user[0].apellido_mat,
+                    clave: db_user[0].clave_empleado,
                     curp: db_user[0].curp,
                     tel: db_user[0].telefono,
                     ext: db_user[0].extension,
                     correo: db_user[0].correo,
-                    depto: db_user[0].departamentos_id_dept
+                    depto: db_user[0].depto
                 });
             }
         });

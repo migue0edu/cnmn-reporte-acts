@@ -11,7 +11,7 @@ app.post('/login', (req, res) => {
         mysqlConn = new MySQL();
         let escapeUser = mysqlConn.conection.escape ( `${usuario}` );
         let escapeCurp = mysqlConn.conection.escape ( `${curp}` );
-        let query = `SELECT COUNT(id) AS results FROM usuarios WHERE (clave_empleado = ${escapeUser} AND curp = ${escapeCurp});`;
+        let query = `SELECT id, roles_id_rol, departamentos_id_dept FROM usuarios WHERE clave_empleado = ${escapeUser} AND curp = ${escapeCurp}`;
         mysqlConn.ejecutarQuery( query, (err, dbres) => {
             if (err) {
                 res.status(500).json([{
@@ -20,7 +20,10 @@ app.post('/login', (req, res) => {
             }
             else {
                 console.log(JSON.stringify(dbres));
-                if(dbres[0].results){
+                if(dbres[0].id){
+                    req.session.userId = dbres[0].id;
+                    req.session.userRole = dbres[0].roles_id_rol;
+                    req.session.depto = dbres[0].departamentos_id_dept;
                     res.json({result:true})
                 }else{
                     res.json({
@@ -31,4 +34,11 @@ app.post('/login', (req, res) => {
         });
     }
 });
+
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/views/login');
+});
+
+
 module.exports = app;

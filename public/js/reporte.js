@@ -57,7 +57,7 @@ $(document).ready( () => {
 			$("#nombre").val(`${ui.item.nombres}`)
 			$("#aPat").val(`${ui.item.apellido_pat}`)
 			$("#aMat").val(`${ui.item.apellido_mat}`)
-			$("#area").val(`${ui.item.depto}`)
+			$("#area").val(`${ui.item.departamentos_id_dept}`)
 			$("#mail").val(`${ui.item.correo}`)
 			$("#tel").val(`${ui.item.telefono}`)
 			$("#curp").val(`${ui.item.curp}`)

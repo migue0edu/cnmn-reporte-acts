@@ -1,8 +1,17 @@
 const express = require('express');
 const app = express();
 const hbs = require('hbs');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const session = require('express-session');
 require('./hbs/helper');
+
+/* Configuración de sesiones en el servidor*/
+app.use(session({
+    secret: 'cnmn_reporte_acts',
+	resave: true,
+	saveUninitialized: true,
+	// store: store
+}))
 
 /* Configuración de datos y variables del servidor */
 require('./config/config');

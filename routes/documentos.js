@@ -1,6 +1,6 @@
 const { json } = require('body-parser');
 const express = require('express');
-const { demandCommand } = require('yargs');
+const session = require('express-session');
 const MySQL = require('../connector/mysql');
 
 let app = express();
@@ -124,7 +124,14 @@ app.get('/documentos/:id', (req, res) => {
     let mysqlConn = null;
     let documento = { empleado: '', fecha: {}, actividades: {} };
     let hayError = false;
-    let mensaje = '';
+    let mensaje = '', userId = '';
+
+    console.log('Session: ', JSON.stringify(req.session) );
+    if(!req.session.userId){
+        return res.status(401).json({ mensaje: 'Unauhtorized' });
+    }else{
+        userId = req.session.userId;
+    }
 
     const idDocument = req.params.id || '';
     if( idDocument ){
@@ -169,12 +176,69 @@ app.get('/documentos/:id', (req, res) => {
             }
 
             console.log('Res Documento;', JSON.stringify(documento));
-            hayError ? res.status(400).json({ ok: false, mensaje, error: err }) : res.json({documento});
+            hayError ? res.status(400).json({ ok: false, mensaje, error: err }) : res.json({userId, documento});
 
         });
 
     }
 
+});
+
+app.get('/documento/historial/', (req, res) => {
+
+    if( !req.session.userId ){
+        return  res.status(401).json({ ok: false, mensaje: "Sin autorización" });
+    }
+    let user = req.session.userId,
+        rol  = req.session.userRole,
+        depto = req.session.depto;
+
+    let mysqlConn = null;
+    let documentos = [];
+    let documentosObj = {};
+    let hayError = false;
+    let mensaje = '';
+
+    mysqlConn = new MySQL();
+    let query  = `SELECT id_doc, fecha_inicio, fecha_fin, fecha_creacion,estado, usuarios.nombres, usuarios.apellido_pat, usuarios.apellido_mat, departamentos.nombre as departamento `;
+        query += `FROM documentos INNER JOIN usuarios ON usuarios_id = id INNER JOIN departamentos ON usuarios.departamentos_id_dept = id_dept `;
+        query += {
+            1: `ORDER BY id_doc ASC;`,
+            2: `WHERE usuarios.id = ${user} ORDER BY id_doc ASC;`,
+            3: `WHERE usuarios.departamentos_id_dept = ${depto} ORDER BY id_doc ASC;`,
+            4: `ORDER BY id_doc ASC;`
+        }[rol];
+    console.log('Query Documento: ' + query);
+
+    getDocument( query, mysqlConn, (err, db_doc) => {
+        if(err){
+            hayError = true;
+            mensaje = "Error al obtener documento";
+        }else{
+            console.log('db_doc: ' + JSON.stringify(db_doc));
+
+            if( db_doc ){
+                console.log('There are documents!');
+                for(let registro of db_doc){
+
+                    documentos.push({
+                        id: registro.id_doc,
+                        fechaInicio: registro.fecha_inicio,
+                        fechaFin: registro.fecha_fin,
+                        creacion:registro.fecha_creacion,
+                        estado:registro.estado,
+                        nombreCompleto: `${registro.nombres} ${registro.apellido_pat} ${registro.apellido_mat}`,
+                        departamento: registro.departamento
+                    });
+
+                }
+            }
+        }
+
+        console.log('Res Documento;', JSON.stringify(documentos));
+        let response = documentos;
+        hayError ? res.status(400).json({ ok: false, mensaje, error: err }) : res.json(response);
+    });
 });
 
 app.get('/documentos', (req, res) => {

@@ -13,7 +13,7 @@ let empleado = {
 }
 const pintaHistorial = () => {
 	$.ajax({
-		url: "http://localhost:3000/documentos",
+		url: "http://localhost:3000/documento/historial/",
 		dataType: "json",
 		type: "get",
 		success: (response) => {
@@ -85,6 +85,7 @@ const getEmpleado = (id,reporte) => {
 				nombre:response.nombre,
 				aPat:response.aPat,
 				aMat:response.aMat,
+				clave:response.clave,
 			    curp:response.curp,
 			    tel:response.tel ,
 			    correo: response.correo ,
@@ -111,13 +112,13 @@ const pdf = (reporte,empleado) => {
     //Cabecera
 	doc.addImage(poli, 'JPEG', 49, 10, 50, 30)
 	doc.setFontSize(15)
-	doc.text('Instituto politecnico Nacional',114,18);
-	doc.text('Secretaria de Innovación e integración Social',95,24);
+	doc.text('Instituto Politécnico Nacional',114,18);
+	doc.text('Secretaría de Innovación e Integración Social',95,24);
 	doc.setFontSize(12)
 	doc.text('Centro de Nanociencias y Micro y Nanotecnologías',100,30);
 	doc.addImage(logo, 'JPEG', 206, 10, 25, 25)
 	doc.setFontSize(15)
-	doc.text('Designación y seguimineto de actividades laborales para el personal del CNMN.',18,48);
+	doc.text('Designación y seguimiento de actividades laborales para el personal del CNMN.',18,48);
 	doc.setFontSize(12)
 	doc.text("Fecha:"+f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear(),245,48)
 	doc.setFontSize(14)
@@ -125,8 +126,8 @@ const pdf = (reporte,empleado) => {
 	//Generamos datos del empleado
 	doc.setFontSize(10)
 	doc.printingHeaderRow = true;
-	var columns = ["Apellido Paterno", "Apellido Materno", "Nombre(s)", "No.empleado","CURP","Telefono","Correo","Area"];
-	var data = [[empleado.aPat, empleado.aMat,empleado.nombre,empleado.depto,empleado.curp,empleado.tel,empleado.correo,empleado.depto]];    
+	var columns = ["Apellido Paterno", "Apellido Materno", "Nombre(s)", "No.empleado","CURP","Teléfono","Correo","Área"];
+	var data = [[empleado.aPat, empleado.aMat,empleado.nombre,empleado.clave,empleado.curp,empleado.tel,empleado.correo,empleado.depto]];    
 	doc.autoTable(columns,data,
 	{ 
 		theme : 'grid',
@@ -136,7 +137,7 @@ const pdf = (reporte,empleado) => {
 	//Genramos actividades
 	doc.setFontSize(14)
 	doc.text('Registro de Actividades',125,87);
-	var columns2 = ["#", "Titulo", "Objetivo", "Descripción","Entregable","Inicio","Fin","Impacto","comunicación","Entrega","Observaciones"];
+	var columns2 = ["#", "Título", "Objetivo", "Descripción","Entregable","Fecha de Inicio","Fecha de Termino","Impacto","Comunicación","Entrega","Observaciones"];
 	var data2 = [];
 	for(var item in reporte.actividades){
 		var elemento = reporte.actividades[item]
