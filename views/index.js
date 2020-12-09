@@ -18,7 +18,7 @@ app.get('/views/reporte', function (req, res) {
       res.status(500).json({mensaje: err});
     }
     if(user){
-      res.render('reporte', {user});
+      res.render('reporte',{user});
     }
   });
 });
@@ -31,7 +31,14 @@ app.get('/views/historial', function (req, res) {
   if( !req.session.userId ){
     return res.redirect('/views/login');
   }
-  res.render('historial');
+  getUserData( req.session.userId, (err, user) => {
+    if(err){
+      res.status(500).json({mensaje: err});
+    }
+    if(user){
+      res.render('historial',{user});
+    }
+  });
 });
 
 app.get('/views/login', function (req, res) {

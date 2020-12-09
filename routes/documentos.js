@@ -41,7 +41,6 @@ function getDocument( query, conn, callback){
         }
     });
 }
-
 app.post('/documentos', (req, res) => {
     let mysqlConn = null;
     let values = null, insertedActsIds = [];
@@ -137,7 +136,7 @@ app.get('/documentos/:id', (req, res) => {
     if( idDocument ){
         mysqlConn = new MySQL();
         let escapeId = mysqlConn.conection.escape ( `${idDocument}` );
-        let query  = `SELECT fecha_inicio, fecha_fin, usuarios_id, actividades.* FROM documentos INNER JOIN actividades `;
+        let query  = `SELECT fecha_creacion,fecha_inicio, fecha_fin, usuarios_id, actividades.* FROM documentos INNER JOIN actividades `;
             query += `ON id_doc = documentos_id_doc where id_doc = ${idDocument};`
         console.log('Query Documento: ' + query);
 
@@ -150,31 +149,29 @@ app.get('/documentos/:id', (req, res) => {
 
                 if( db_doc ){
                     
-                    console.log('There is a document!');
-                    documento.fecha.fechaI = db_doc[0].fecha_inicio;
-                    documento.fecha.fechaF = db_doc[0].fecha_fin;
+                    console.log('There is a document!');  
+                    documento.fecha.fechaCreacion = JSON.stringify(db_doc[0].fecha_creacion).split("T")[0];           
+                    documento.fecha.fechaI = JSON.stringify(db_doc[0].fecha_inicio).split("T")[0];
+                    documento.fecha.fechaF = JSON.stringify(db_doc[0].fecha_fin).split("T")[0];
                     documento.empleado = db_doc[0].usuarios_id;
 
-                    let index = 0;
+                    let index = 1;
                     for(let registro of db_doc){
                         documento.actividades[index++] = {
                             titulo: registro.actividad,
                             objetivo: registro.objetivo,
                             descripcion: registro.descripcion,
                             entregable: registro.entregable,
-                            fechaIni: registro.inicio_act,
-                            fechaFin: registro.fin_act,
+                            fechaIni: JSON.stringify(registro.inicio_act).split("T")[0],
+                            fechaFin: JSON.stringify(registro.fin_act).split("T")[0],
                             beneficio: registro.impacto_beneficio,
                             comunicacion: registro.medio_comunicacion,
                             entrega: registro.medio_entrega,
                             observacion: registro.observaciones
                         };
-
                     }
-
                 }
             }
-
             console.log('Res Documento;', JSON.stringify(documento));
             hayError ? res.status(400).json({ ok: false, mensaje, error: err }) : res.json({userId, documento});
 

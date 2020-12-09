@@ -29,7 +29,7 @@ $(document).ready( () => {
 		language:  'es',
 		autoclose: 1
 	});
-	$("#autoEmp").autocomplete(
+	/*$("#autoEmp").autocomplete(
 	{
 		minLength: 2,
 		source: (req, res) =>
@@ -63,14 +63,13 @@ $(document).ready( () => {
 			$("#curp").val(`${ui.item.curp}`)
 			return false
 		}
-	})
-	.autocomplete( "instance" )._renderItem = ( ul, item ) => {
+	})*/
+	/*.autocomplete( "instance" )._renderItem = ( ul, item ) => {
 		console.log(item);
 		return $( "<li>" )
 		.append(  "<b>" + item.nombres + " " + item.apellido_pat + " " + item.apellido_mat )
 		.appendTo( ul )
-	}
-
+	}*/
 	$("#clFind").click(() => {
 		$("#autoEmp").val("")
 		$("#autoEmp").attr("data-idEmp","")
@@ -80,14 +79,14 @@ $(document).ready( () => {
 
 	});
 	$("#btnEmp").click( () => {
-		let idemp = $("#autoEmp").attr("data-idEmp")
+		let idemp = $("#idEmp").attr("data-idEmp")
 		if(idemp){
 			documento.empleado = idemp;
-			$("#btnEmp").css("display","none")
+			$("#rowEmp").css("display","none")
 			$("#card-tiempo").css("display","flex")
 		}
 		else 
-			alert("Ingresa el empleado para continuar")
+			alert("Error")
 	})
 	$("#btnFecha").click( () => {
 		let inicio = $("#fechaI").val(),
@@ -148,7 +147,7 @@ const finalizar = () => {
 		alert("Ingrese alguna actividad")
 	else {
 		$.ajax({
-			url: "http://localhost:3000/documentos",
+			url: "/documentos",
 			dataType: "json",
 			type: "post",
 			contentType: "application/json",
@@ -209,12 +208,13 @@ const pdf = () => {
 	doc.autoTable(columns,data,
 	{ 
 		theme : 'grid',
+		headStyles: { halign: 'center',fillColor: [104, 36, 68] },
 		margin:{ top: 63 },
 		align:'center'
 	});
 	//Genramos actividades
 	doc.setFontSize(14)
-	doc.text('Registro de Actividades',125,87);
+	doc.text('Registro de Actividades',125,92);
 	var columns2 = ["#", "Titulo", "Objetivo", "Descripción","Entregable","Inicio","Fin","Impacto","comunicación","Entrega","Observaciones"];
 	var data2 = [];
 	for(var item in documento.actividades){
@@ -227,8 +227,24 @@ const pdf = () => {
 	doc.autoTable(columns2,data2,
 	{ 
 		theme : 'grid',
+		headStyles: { halign: 'center',fillColor: [104, 36, 68] },
 		margin:{ top: 10 },
-		startY: doc.autoTableEndPosY() + 16
+		startY: doc.autoTableEndPosY() + 12
+	});
+	//Firmas
+	var columns = ["Nombre y firma del jefe inmediato", "Nombre y firma del director"];
+	var data = [["", "" ],["Nombre del jefe inmediato","Dr.Miguel Ángel Alemán Arce"]];    
+	doc.autoTable(columns,data,
+	{ 
+		theme : 'grid',
+		margin:{ top: 63 },
+		columnStyles: { 
+			0: { halign: 'center' },
+			1: { halign: 'center' }
+		},
+		headStyles: { halign: 'center',fillColor:[104, 36, 68] },
+		startY: doc.autoTableEndPosY() + 16,
+		align:'center'
 	});
 	doc.save("reporte.pdf");
 }

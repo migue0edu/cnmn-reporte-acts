@@ -3,14 +3,14 @@ $(document).ready( () => {
 		event.preventDefault();
 		var form = $("#registro").serializeArray();
 		$.ajax({
-			url:"http://localhost:3000/empleados",
+			url:"/empleados",
 			type: $("#registro").attr("method"),
 			dataType: "json",
 			data: form,
 			success: (response) => {
 				document.getElementById("registro").reset();
 				alert("Usuario agregado con éxito")
-				window.location.assign("http://localhost:3000/views/reporte")
+				window.location.assign("/views/reporte")
 			},
 			error: (response) => {
 				alert(response)

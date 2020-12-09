@@ -13,7 +13,7 @@ let empleado = {
 }
 const pintaHistorial = () => {
 	$.ajax({
-		url: "http://localhost:3000/documento/historial/",
+		url: "/documento/historial/",
 		dataType: "json",
 		type: "get",
 		success: (response) => {
@@ -62,7 +62,7 @@ const pintaHistorial = () => {
 const solicitud = (id) => {
 	//traemos el objeto con todos los datos del reporte
 	$.ajax({
-		url: "http://localhost:3000/documentos/"+id,
+		url: "/documentos/"+id,
 		dataType: "json",
 		type: "get",
 		success: (response) => {
@@ -77,7 +77,7 @@ const solicitud = (id) => {
 }
 const getEmpleado = (id,reporte) => {
 	$.ajax({
-		url: "http://localhost:3000/empleado/"+id,
+		url: "/empleado/"+id,
 		dataType:"json",
 		type:"get",
 		success:(response) => {
@@ -118,9 +118,10 @@ const pdf = (reporte,empleado) => {
 	doc.text('Centro de Nanociencias y Micro y Nanotecnologías',100,30);
 	doc.addImage(logo, 'JPEG', 206, 10, 25, 25)
 	doc.setFontSize(15)
-	doc.text('Designación y seguimiento de actividades laborales para el personal del CNMN.',18,48);
-	doc.setFontSize(12)
-	doc.text("Fecha:"+f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear(),245,48)
+	doc.text('Designación y seguimiento  de actividades laborales para el personal del CNMN.',18,48);
+	doc.setFontSize(11)
+	doc.text("Fecha de generación: "+reporte.fecha.fechaCreacion,214,45)
+	doc.text("Periodo de reporte:"+reporte.fecha.fechaI+"A"+reporte.fecha.fechaF,214,51)
 	doc.setFontSize(14)
 	doc.text('Datos del empleado',130,58);
 	//Generamos datos del empleado
@@ -131,13 +132,14 @@ const pdf = (reporte,empleado) => {
 	doc.autoTable(columns,data,
 	{ 
 		theme : 'grid',
+		headStyles: { halign: 'center',fillColor: [104, 36, 68] },
 		margin:{ top: 63 },
 		align:'center'
 	});
 	//Genramos actividades
 	doc.setFontSize(14)
-	doc.text('Registro de Actividades',125,87);
-	var columns2 = ["#", "Título", "Objetivo", "Descripción","Entregable","Fecha de Inicio","Fecha de Termino","Impacto","Comunicación","Entrega","Observaciones"];
+	doc.text('Registro de Actividades',125,92);
+	var columns2 = ["#", "Título", "Objetivo", "Descripción","Entregable","Inicio","Fin","Impacto","Comunicación","Entrega","Observaciones"];
 	var data2 = [];
 	for(var item in reporte.actividades){
 		var elemento = reporte.actividades[item]
@@ -149,14 +151,30 @@ const pdf = (reporte,empleado) => {
 	doc.autoTable(columns2,data2,
 	{ 
 		theme : 'grid',
+		headStyles: { halign: 'center',fillColor: [104, 36, 68] },
 		margin:{ top: 10 },
-		startY: doc.autoTableEndPosY() + 16
+		startY: doc.autoTableEndPosY() + 12
+	});
+	//Firmas
+	var columns = ["Nombre y firma del jefe inmediato", "Nombre y firma del director"];
+	var data = [["", "" ],["Nombre del jefe inmediato","Dr.Miguel Ángel Alemán Arce"]];    
+	doc.autoTable(columns,data,
+	{ 
+		theme : 'grid',
+		margin:{ top: 63 },
+		columnStyles: { 
+			0: { halign: 'center' },
+			1: { halign: 'center' }
+		},
+		headStyles: { halign: 'center',fillColor:[104, 36, 68] },
+		startY: doc.autoTableEndPosY() + 16,
+		align:'center'
 	});
 	doc.save("reporte.pdf");
 }
 const revision = (id,tipo) => {
 	$.ajax({
-		url: "http://localhost:3000/documentos/"+id,
+		url: "/documentos/"+id,
 		dataType:"json",
 		type:"put",
 		data:{tipo},
