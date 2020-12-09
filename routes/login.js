@@ -14,9 +14,10 @@ app.post('/login', (req, res) => {
         let query = `SELECT id, roles_id_rol, departamentos_id_dept FROM usuarios WHERE clave_empleado = ${escapeUser} AND curp = ${escapeCurp}`;
         mysqlConn.ejecutarQuery( query, (err, dbres) => {
             if (err) {
-                res.status(500).json([{
+                res.json({
+                    result: false,
                     message: "No se a encontrado el registro solicitado."
-                }])                
+                })                
             }
             else {
                 console.log(JSON.stringify(dbres));

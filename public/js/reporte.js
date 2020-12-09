@@ -157,6 +157,7 @@ const finalizar = () => {
 				if(response.ok===true){
 					alert("Guardado con éxito")
 					pdf();
+					location.reload();
 				}else 
 					alert("Error al gusrdar el documento")				
 			},

@@ -3,7 +3,7 @@
 <div class="card ml-3 mr-3 mt-3">
 	<div class="card-header font-weight-bold">Datos del empleado</div>
 	<div class="card-body">
-		<div class="row">
+		{{!-- <div class="row">
 			<div class="col-12">
 				<div class="input-group mb-2">
 					<div class="input-group-prepend">
@@ -16,14 +16,14 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row" id="datosEmp" style="display: none;">
+		</div> --}}
+		<div class="row" id="datosEmp" >
 			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">NoEmpleado</span>
 					</div>
-					<input type="text" name="idEmp" id="idEmp" class="form-control" minlength="1" maxlength="100" readonly required>
+					<input type="text" name="idEmp" id="idEmp" class="form-control" minlength="1" maxlength="100" value="{{user.clave}}" readonly required>
 				</div>
 			</div>
 			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9">
@@ -31,9 +31,9 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">Nombre</span>
 					</div>
-					<input type="text" name="aPat" id="aPat"  class="form-control" minlength="1" maxlength="100" readonly required>
-					<input type="text" name="aMat" id="aMat"  class="form-control" minlength="1" maxlength="100" readonly required>
-					<input type="text" name="nombre" id="nombre"  class="form-control" minlength="1" maxlength="100" readonly required>					
+					<input type="text" name="aPat" id="aPat"  class="form-control" minlength="1" maxlength="100" value="{{user.aPat}}" readonly required>
+					<input type="text" name="aMat" id="aMat"  class="form-control" minlength="1" maxlength="100" value="{{user.aMat}}" readonly required>
+					<input type="text" name="nombre" id="nombre"  class="form-control" minlength="1" maxlength="100" value="{{user.nombre}}" readonly required>					
 				</div>
 			</div>
 			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
@@ -41,7 +41,7 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">Area</span>
 					</div>
-					<input name="area" id="area" type="text" minlength="1" maxlength="1000" class="form-control" readonly required>
+					<input name="area" id="area" type="text" minlength="1" maxlength="1000" class="form-control" value="{{user.depto}}" readonly required>
 				</div>
 			</div>
 			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
@@ -49,7 +49,7 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">CURP</span>
 					</div>
-					<input name="curp" id="curp" type="text" minlength="1" maxlength="1000" class="form-control" readonly required>
+					<input name="curp" id="curp" type="text" minlength="1" maxlength="1000" class="form-control" value="{{user.curp}}" readonly required>
 				</div>
 			</div>
 
@@ -58,7 +58,7 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">Correo</span>
 					</div>
-					<input type="text" name="mail" id="mail" class="form-control" minlength="1" maxlength="100" readonly required>
+					<input type="text" name="mail" id="mail" class="form-control" minlength="1" maxlength="100" value="{{user.correo}}" readonly required>
 				</div>
 			</div>
 			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
@@ -66,13 +66,13 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text maxInput">Telefono</span>
 					</div>
-					<input name="tel" id="tel" type="text" readonly minlength="1" maxlength="1000" class="form-control" required>                                                                                                                                                                                           
+					<input name="tel" id="tel" type="text" readonly minlength="1" maxlength="1000" class="form-control" value="{{user.tel}}" required>                                                                                                                                                                                           
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="card ml-3 mr-3 mt-3"  id="card-tiempo" style="display: none;">
+<div class="card ml-3 mr-3 mt-3"  id="card-tiempo" >
 	<div class="card-header font-weight-bold">Tiempo del reporte</div>
 	<div class="card-body">
 		<div class="row">			
