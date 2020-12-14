@@ -14,6 +14,7 @@ let contador = 1;
 //Array de datos de la tabla1 del PDF
 let tabla1 = [];
 $(document).ready( () => {
+	$('[data-toggle="tooltip"]').tooltip();
 	$("#fechaI,#fechaF").datetimepicker({
 		language:  'es',
 		format: "yyyy-mm-dd",

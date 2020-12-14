@@ -1,4 +1,5 @@
 $(document).ready( () => {
+	$('[data-toggle="tooltip"]').tooltip();
 	$("#registro").submit( ()  => {
 		event.preventDefault();
 		var form = $("#registro").serializeArray();

@@ -1,4 +1,5 @@
 $(document).ready( () => {
+    $('[data-toggle="tooltip"]').tooltip();
     $("#log-in").submit( ()  => {
         event.preventDefault();
         let usuario = $("#usuario").val().trim(),

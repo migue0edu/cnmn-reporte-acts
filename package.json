@@ -11,6 +11,7 @@
   "author": "Alfredo Cabrera,Miguel Rodriguez",
   "license": "ISC",
   "dependencies": {
+    "@popperjs/core": "^2.6.0",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.5.3",
     "express": "^4.17.1",
