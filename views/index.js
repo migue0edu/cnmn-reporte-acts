@@ -27,6 +27,14 @@ app.get('/views/registro', function (req, res) {
   res.render('registro_empleados');
 });
 
+app.get('/views/acerca', function (req, res) {
+  res.render('acerca');
+});
+
+app.get('/views/contacto', function (req, res) {
+  res.render('contacto');
+});
+
 app.get('/views/historial', function (req, res) {
   if( !req.session.userId ){
     return res.redirect('/views/login');

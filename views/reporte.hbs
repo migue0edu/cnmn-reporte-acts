@@ -40,7 +40,7 @@
 			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Area</span>
+						<span class="input-group-text maxInput" style="width: 100%; padding-right: 30px;">Área</span>
 					</div>
 					<input name="area" id="area" type="text" minlength="1" maxlength="1000" class="form-control" value="{{user.depto}}" readonly required>
 				</div>
@@ -48,7 +48,7 @@
 			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">CURP</span>
+						<span class="input-group-text maxInput" style="width: 100%; padding-right: 25px;">CURP</span>
 					</div>
 					<input name="curp" id="curp" type="text" minlength="1" maxlength="1000" class="form-control" value="{{user.curp}}" readonly required>
 				</div>
@@ -57,7 +57,7 @@
 			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Correo</span>
+						<span class="input-group-text maxInput" style="width: 100%; padding-right: 17px;">Correo</span>
 					</div>
 					<input type="text" name="mail" id="mail" class="form-control" minlength="1" maxlength="100" value="{{user.correo}}" readonly required>
 				</div>
@@ -73,12 +73,12 @@
 		</div>
 		<div class="row justify-content-center" id="rowEmp">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 text-center">
-				<button class="btn btn-success btn-sm btn-block" id="btnEmp">Continuar</button>
+				<button class="btn btn-success btn-sm btn-block" id="btnEmp">Continuar <i class="fas fa-arrow-circle-down"></i></button>
 			</div>
 		</div>	
 	</div>
 </div>
-<div class="card ml-3 mr-3 mt-3"  id="card-tiempo" style="display: none;">
+<div class="card ml-3 mr-3 mt-3"  id="card-tiempo" style="display:none;">
 	<div class="card-header font-weight-bold">Tiempo del reporte</div>
 	<div class="card-body">
 		<div class="row">			
@@ -93,7 +93,7 @@
 			<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
 				<div class="input-group date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd">
 					<div class="input-group-prepend">
-						<span class="input-group-text maxInput">Fecha fin</span>
+						<span class="input-group-text maxInput" style="width: 100%; padding-right: 25px;">Fecha fin</span>
 					</div>
 					<input class="form-control text-center" id="fechaF" name="fechaF" placeholder="YYYY-MM-DD" required>
 				</div>	
@@ -101,12 +101,12 @@
 		</div>
 		<div class="row justify-content-center" id="rowBtnTiempo">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 text-center">
-				<button class="btn btn-success btn-sm btn-block" id="btnFecha">Continuar</button>
+				<button class="btn btn-success btn-sm btn-block" id="btnFecha">Continuar <i class="fas fa-arrow-circle-down"></i></button>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="card ml-3 mr-3 mt-3 mb-3" id="card-actividades" style="display: none;">
+<div class="card ml-3 mr-3 mt-3 mb-3" id="card-actividades" style="display:none;">
 	<form id="Regactividades" method="POST" enctype="multipart/form-data">
 		<div class="card-header font-weight-bold">Registro de actividades</div>
 		<div class="card-body">
@@ -114,49 +114,52 @@
 				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 						<div class="input-group-prepend">
-							<span class="input-group-text maxInput">Título</span>
+							<span class="input-group-text" style="width: 100%; padding-right: 57px;">Título</span>
 						</div>
 						 <textarea id="titulo" name="titulo" class="form-control" aria-label="With textarea" required></textarea>
 						<div class="input-group-append">
-							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title=""></i></span>
+							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Cada fila del formato corresponde a una actividad específica a realizar por el trabajador. En este campo se coloca el nombre de la actividad."><i class="far fa-question-circle"></i></span>
 						</div>
 					</div>
 				</div>
 				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 						<div class="input-group-prepend">
-							<span class="input-group-text maxInput">Objetivo</span>
+							<span class="input-group-text maxInput" style="width: 100%; padding-right: 41px;">Objetivo</span>
 						</div>
 						 <textarea class="form-control" aria-label="With textarea" id="objetivo" name="objetivo" required></textarea>
 						<div class="input-group-append">
-							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title=""><i class="far fa-question-circle"></i></span>
+							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Finalidad de la actividad comenzando con un verbo en infinitivo."><i class="far fa-question-circle"></i></span>
 						</div>
 					</div>
 				</div>
 				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 						<div class="input-group-prepend">
-							<span class="input-group-text maxInput">Descripción</span>
+							<span class="input-group-text maxInput" style="width: 100%; padding-right: 23px;">Descripción</span>
 						</div>
 						 <textarea class="form-control" aria-label="With textarea" id="descripcion" name="descripcion" required></textarea>
 						
 						<div class="input-group-append">
-							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Atributo requerido para precisar la descripción del bien o servicio cubierto por el presente concepto."><i class="far fa-question-circle"></i></span>
+							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Detallar las labores que conllevan la actividad designada."><i class="far fa-question-circle"></i></span>
 						</div>
 					</div>
 				</div>
 				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 					  <div class="input-group-prepend">
-					    <span class="input-group-text">Entregable</span>
+					    <span class="input-group-text" style="width: 100%; padding-right: 30px;">Entregable</span>
 					  </div>
 					 <input name="" type="text" minlength="1" maxlength="1000" id="entregable" name="entregable"  class="form-control" required>
+					 <div class="input-group-append">
+							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Producto resultante de la actividad a desarrollar, la cual será a su vez la evidencia del trabajo realizado."><i class="far fa-question-circle"></i></span>
+						</div>
 					</div>
 				</div>
 				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group  date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd">
 						<div class="input-group-prepend">
-							<span class="input-group-text maxInput">Fecha inicio</span>
+							<span class="input-group-text maxInput" style="width: 100%; padding-right: 25px;">Fecha inicio</span>
 						</div>
 						<input class="form-control text-center" id="actFechaI" name="actFechaI" placeholder="YYYY-MM-DD" value="" required>
 					</div>	
@@ -164,7 +167,7 @@
 				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd">
 						<div class="input-group-prepend">
-							<span class="input-group-text maxInput">Fecha fin</span>
+							<span class="input-group-text maxInput" style="width: 100%; padding-right: 41px;">Fecha fin</span>
 						</div>
 						<input class="form-control text-center" id="actFechaF" name="actFechaF" placeholder="YYYY-MM-DD" required>
 					</div>	
@@ -172,9 +175,12 @@
 				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 					  <div class="input-group-prepend">
-					    <span class="input-group-text">Beneficio</span>
+					    <span class="input-group-text" style="width: 100%; padding-right: 40px;">Beneficio</span>
 					  </div>
 					 <input type="text" minlength="1" id="beneficio" name="beneficio" maxlength="1000"  class="form-control" required>
+					 <div class="input-group-append">
+							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Aspectos que destaquen la importancia de la actividad para el Instituto Politécnico Nacional."><i class="far fa-question-circle"></i></span>
+						</div>
 					</div>
 				</div>
 				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
@@ -183,14 +189,20 @@
 							<span class="input-group-text maxInput">Comunicación</span>
 						</div>
 						 <input type="text" minlength="1" maxlength="1000" id="comunicacion" name="comunicacion" class="form-control" required>
+						 <div class="input-group-append">
+							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Medio a través del cual se mantendrá comunicación con el trabajador. Además del correo institucional puede utilizarse llamadas telefónicas, WhatsApp, Zoom, Teams, entre otros."><i class="far fa-question-circle"></i></span>
+						</div>
 					</div>	
 				</div>		
 				<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
 					<div class="input-group input-group-sm mb-3">
 						<div class="input-group-prepend">
-							<span class="input-group-text maxInput">Entrega</span>
+							<span class="input-group-text maxInput" style="width: 100%; padding-right: 49px;">Entrega</span>
 						</div>
 						 <input type="text" minlength="1" maxlength="1000" id="entrega"  name="entrega" class="form-control" required>
+						 <div class="input-group-append">
+							<span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="Medio a través del cual se entregará el producto o evidencia mencionada en el campo Entregable."><i class="far fa-question-circle"></i></span>
+						</div>
 					</div>	
 				</div>
 				<div class="col-12">
@@ -198,7 +210,7 @@
 					  <div class="input-group-prepend">
 					    <span class="input-group-text">Observaciones</span>
 					  </div>
-					  <textarea class="form-control" id="observacion" name="observacion" aria-label="With textarea" required></textarea>
+					  <textarea class="form-control" id="observacion" name="observacion" aria-label="With textarea" placeholder="Mencionar información relevante que no se encuentre en los campos anteriores." required></textarea>
 					</div>
 				</div>
 			</div>
