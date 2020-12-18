@@ -25,22 +25,24 @@ const pintaHistorial = () => {
 					case 0:
 						estado = "Pendiente";
 						clase = "text-warning";
+						if(value.rol==2)
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'
+						else
+							opciones = '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
+							   '<a class="text-success" data-toggle="tooltip" data-placement="bottom" title="Aceptar reporte" onclick="revision('+value.id+',1)"><i class="far fa-check-circle fa-2x"></i></a> &nbsp'+
+							   '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Cancelar reporte" onclick="revision('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>';
 					break;
 					case 1:
 						estado = "Aceptado";
 						clase = "text-success";
+						opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'
 					break;
 					case 2:
 						estado = "Rechazado"
 						clase = "text-danger"
+						opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'
 					break;
 				}
-				if(value.estado == 0)
-					opciones = '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
-							   '<a class="text-success" data-toggle="tooltip" data-placement="bottom" title="Aceptar reporte" onclick="revision('+value.id+',1)"><i class="far fa-check-circle fa-2x"></i></a> &nbsp'+
-							   '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Cancelar reporte" onclick="revision('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>'
-				else
-					opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'
 			  	$("#body-historial").append(
 					'<tr class="text-center" style="vertical-align: middle;">'+
 						'<td style="vertical-align: middle;">'+value.id+'</td>'+

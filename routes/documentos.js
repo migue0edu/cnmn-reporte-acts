@@ -225,7 +225,8 @@ app.get('/documento/historial/', (req, res) => {
                         creacion:registro.fecha_creacion,
                         estado:registro.estado,
                         nombreCompleto: `${registro.nombres} ${registro.apellido_pat} ${registro.apellido_mat}`,
-                        departamento: registro.departamento
+                        departamento: registro.departamento,
+                        rol
                     });
 
                 }
