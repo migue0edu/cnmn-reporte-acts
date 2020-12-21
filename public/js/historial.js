@@ -63,6 +63,22 @@ const pintaHistorial = () => {
 	})
 }
 const solicitud = (id) => {
+	$("#modalPDF").modal({backdrop: 'static', keyboard: false, show: true})
+	$("#modalPDF").attr("data-id",id)
+	 document.getElementById("Cuerpo-Modal").innerHTML = "Se iniciara la descarga del reporte "+id
+}
+const aceptar = () => {
+	let id = $("#modalPDF").attr("data-id")
+	$("#btn-modal").prop("disabled",true)
+	getReporte(id);
+}
+const cancelar = () => {
+	$("#modalPDF").attr("data-id","")
+	document.getElementById("Cuerpo-Modal").innerHTML = ""
+	$("#btn-modal").prop("disabled",false)
+	$('#modalPDF').modal('hide')
+}
+const getReporte = (id) => {
 	//traemos el objeto con todos los datos del reporte
 	$.ajax({
 		url: "/documentos/"+id,
@@ -160,7 +176,7 @@ const pdf = (reporte,empleado) => {
 	});
 	//Firmas
 	var columns = ["Nombre y firma del jefe inmediato", "Nombre y firma del director"];
-	var data = [["", "" ],["Nombre del jefe inmediato","Dr.Miguel Ángel Alemán Arce"]];    
+	var data = [["", "" ],["Dr. Cuauhtémoc León Puertos","Dr.Miguel Ángel Alemán Arce"]];    
 	doc.autoTable(columns,data,
 	{ 
 		theme : 'grid',
@@ -173,6 +189,7 @@ const pdf = (reporte,empleado) => {
 		startY: doc.autoTableEndPosY() + 16,
 		align:'center'
 	});
+	cancelar();
 	doc.save("reporte.pdf");
 }
 const revision = (id,tipo) => {

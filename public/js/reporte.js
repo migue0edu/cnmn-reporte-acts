@@ -234,7 +234,7 @@ const pdf = () => {
 	});
 	//Firmas
 	var columns = ["Nombre y firma del jefe inmediato", "Nombre y firma del director"];
-	var data = [["", "" ],["Nombre del jefe inmediato","Dr.Miguel Ángel Alemán Arce"]];    
+	var data = [["", "" ],["Dr. Cuauhtémoc León Puertos","Dr.Miguel Ángel Alemán Arce"]];    
 	doc.autoTable(columns,data,
 	{ 
 		theme : 'grid',
