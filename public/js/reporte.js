@@ -131,6 +131,7 @@ $(document).ready( () => {
 					'<td>'+titulo+'</td>'+
 					'<td>'+descripcion+'</td>'+
 					'<td>'+
+						'<a class="text-warning" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="editActividad('+contador+')"><i class="far fa-edit fa-2x"></i></a> &nbsp'+
 						'<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="delActividad('+contador+')"><i class="far fa-trash-alt fa-2x"></i></a>'+
 					'</td>'+
 				'</tr>')
@@ -166,6 +167,9 @@ const finalizar = () => {
 			}
 		})
 	}
+}
+const editActividad = (id)=> {
+	alert("Error captura de datos");
 }
 const delActividad = (id) => {
 	let NumAct = $("#filaTabla").attr("data-contador")
