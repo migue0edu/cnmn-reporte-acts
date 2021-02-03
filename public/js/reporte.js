@@ -128,10 +128,10 @@ $(document).ready( () => {
 			$("#bodyActividades").append(
 				'<tr class="text-center" id="'+contador+'">'+
 					'<td>'+contador+'</td>'+
-					'<td>'+titulo+'</td>'+
-					'<td>'+descripcion+'</td>'+
+					'<td id="titulo-'+contador+'">'+titulo+'</td>'+
+					'<td id="descripcion-'+contador+'">'+descripcion+'</td>'+
 					'<td>'+
-						'<a class="text-warning" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="editActividad('+contador+')"><i class="far fa-edit fa-2x"></i></a> &nbsp'+
+						'<a class="text-warning editarActividad" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="editActividad('+contador+')"><i class="far fa-edit fa-2x"></i></a> &nbsp'+
 						'<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="delActividad('+contador+')"><i class="far fa-trash-alt fa-2x"></i></a>'+
 					'</td>'+
 				'</tr>')
@@ -169,8 +169,50 @@ const finalizar = () => {
 	}
 }
 const editActividad = (id)=> {
-	alert("Error captura de datos");
+	$("#rowBtnAct").css("display","none")
+	$("#rowBtnEditAct").css("display","flex")
+	let arrayDoc = Object.values(documento),
+		actObj = arrayDoc[2];
+	//Pintamos los datos de la actividad
+	$("#titulo").val(actObj[id].titulo)
+	$("#objetivo").val(actObj[id].objetivo)
+	$("#descripcion").val(actObj[id].descripcion)
+	$("#entregable").val(actObj[id].entregable)
+	$("#actFechaI").val(actObj[id].fechaIni)
+	$("#actFechaF").val(actObj[id].fechaFin)
+	$("#beneficio").val(actObj[id].beneficio)
+	$("#comunicacion").val(actObj[id].comunicacion)
+	$("#entrega").val(actObj[id].entrega)
+	$("#observacion").val(actObj[id].observacion)
+
+	$("#btnActActividad").attr("data-id",id)
+	
 }
+const actActividad = () => {	
+	let idAct = $("#btnActActividad").attr("data-id"),
+		actividad = documento.actividades[idAct]
+	actividad.titulo = $("#titulo").val()
+	actividad.objetivo = $("#objetivo").val()
+	actividad.descripcion = $("#descripcion").val()
+	actividad.entregable = $("#entregable").val()
+	actividad.fechaIni = $("#actFechaI").val()
+	actividad.fechaFin = $("#actFechaF").val()
+	actividad.beneficio = $("#beneficio").val()
+	actividad.comunicacion = $("#comunicacion").val()
+	actividad.entrega = $("#entrega").val()
+	actividad.observacion = $("#observacion").val()
+	document.getElementById("titulo-"+idAct).innerHTML =  $("#titulo").val()
+	document.getElementById("descripcion-"+idAct).innerHTML = $("#descripcion").val()
+	cancelEdit();
+
+}
+const cancelEdit = () => {
+	$("#btnActActividad").attr("data-id","")
+	$("#rowBtnAct").css("display","flex")
+	$("#rowBtnEditAct").css("display","none")
+	document.getElementById("Regactividades").reset();
+}
+
 const delActividad = (id) => {
 	let NumAct = $("#filaTabla").attr("data-contador")
 	delete documento["actividades"][id]

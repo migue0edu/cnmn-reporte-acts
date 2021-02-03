@@ -220,9 +220,17 @@
 					</div>
 				</div>
 			</div>
-			<div class="row justify-content-center">
+			<div class="row justify-content-center" id="rowBtnAct">
 				<div class="col-6 mb-3">
 					<button class="btn btn-info btn-sm btn-block" id="agregar">Agregar actividad</button>
+				</div>
+			</div>
+			<div class="row justify-content-center mb-3" id="rowBtnEditAct" style="display: none;">
+				<div class="col-4">
+					<button class="btn btn-success btn-sm btn-block" onclick="actActividad();" data-id="" id="btnActActividad">Actualizar actividad</button>
+				</div>
+				<div class="col-4">
+					<button class="btn btn-danger btn-sm btn-block" onclick="cancelEdit();">Cancelar</button>
 				</div>
 			</div>
 			<div class="row" style="display: none;" id="filaTabla" data-contador="0">
