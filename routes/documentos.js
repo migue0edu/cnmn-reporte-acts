@@ -16,6 +16,19 @@ let app = express();
 // 	}
 // }
 
+let generarFolio = (empleado) => {
+    return new Promise((resolve, reject)=>{
+    mysqlConn = new MySQL();
+    let query = `select max(folio_usuario) as ultimo_folio from documentos where usuarios_id = ${empleado};`
+    mysqlConn.ejecutarQuery(query, (err, result) => {
+        if(err){
+            reject( err );
+        }
+            resolve( parseInt(result[0].ultimo_folio) + 1 );
+        });
+    });
+};
+
 function saveDocument(query, conn, callback){
     conn.ejecutarInsert( query, (err, result) => {
         if (err) {
@@ -41,11 +54,11 @@ function getDocument( query, conn, callback){
         }
     });
 }
-app.post('/documentos', (req, res) => {
+app.post('/documentos', async (req, res) => {
     let mysqlConn = null;
     let values = null, insertedActsIds = [];
     let queryTemplate = '', formatedQuery = '';
-    let insertedRowId = -1;
+    let insertedRowId = -1, lastFolio = 0;
 
     /* Guarda en la bd un nuevo documento para un cierto empleado */
     console.log( JSON.stringify(req.body) );
@@ -56,60 +69,65 @@ app.post('/documentos', (req, res) => {
         var d = f.toISOString();
         var fecha = d.split("T")[0];
         mysqlConn = new MySQL();
-        queryTemplate =  'INSERT INTO documentos ( fecha_inicio, fecha_fin, usuarios_id,fecha_creacion ) ';
-        queryTemplate += 'VALUES ( ?, ?, ?, ? )';
-        
-        values = [ documento.fecha.fechaI, documento.fecha.fechaF, documento.empleado,fecha ];
-        formatedQuery = mysqlConn.conection.format(queryTemplate, values);
-        console.log('formatedQuery: ', formatedQuery);
+        queryTemplate =  'INSERT INTO documentos ( folio_usuario, fecha_inicio, fecha_fin, usuarios_id,fecha_creacion ) ';
+        queryTemplate += 'VALUES ( ?, ?, ?, ?, ? )';
 
-        saveDocument( formatedQuery, mysqlConn, (err, documentId) => {
-            if(err){
-                res.status(400).json({
-                    ok: false,
-                    mensaje: "Error al guardar documento",
-                    error: err
-                });
-            }
 
-            if( documentId ){
-                const actividades = Object.values( documento.actividades );
-                console.log('Actividades: ' + JSON.stringify(actividades));
-                let insertValues = [];
-                queryTemplate  = 'INSERT INTO actividades ( actividad, objetivo, descripcion, entregable, inicio_act, fin_act, impacto_beneficio, medio_comunicacion, medio_entrega, observaciones, documentos_id_doc ) VALUES ';
-                for (const actividadObj of actividades) {
-                    let {titulo, objetivo, descripcion, entregable, fechaIni, fechaFin, beneficio, comunicacion, entrega, observacion } = actividadObj;    
-                    insertValues.push( `( '${titulo}', '${objetivo}', '${descripcion}', '${entregable}', '${fechaIni}', '${fechaFin}', '${beneficio}', '${comunicacion}', '${entrega}', '${observacion}', '${documentId}' )` );
-                }
-                queryTemplate = queryTemplate + insertValues.join(',') + ';';
-                console.log('formatedQuery: ', queryTemplate);
-                mysqlConn.ejecutarInsert( queryTemplate, (err, result) => {
-                    if (err) {
+        generarFolio( documento.empleado )
+            .then((folio)=> {
+                values = [ folio, documento.fecha.fechaI, documento.fecha.fechaF, documento.empleado,fecha ];
+                formatedQuery = mysqlConn.conection.format(queryTemplate, values);
+                console.log('formatedQuery: ', formatedQuery);
+
+                saveDocument( formatedQuery, mysqlConn, (err, documentId) => {
+                    if(err){
                         res.status(400).json({
                             ok: false,
-                            mensaje: "Error al guardar actividades",
+                            mensaje: "Error al guardar documento",
                             error: err
                         });
                     }
-                    else {
-                        // console.log(Result: )
-                        // insertedActsIds.push( result.insertId );
-                        // console.log('insertedActsIds: ' + insertedActsIds.length);
 
-                        // if( insertedActsIds.length > 0 ){
-                            res.json({
-                                ok: true,
-                                mensaje: "Docuemnto guardado correctamente",
-                                result
-                            });
-                        // }
+                    if( documentId ){
+                        const actividades = Object.values( documento.actividades );
+                        console.log('Actividades: ' + JSON.stringify(actividades));
+                        let insertValues = [];
+                        queryTemplate  = 'INSERT INTO actividades ( actividad, objetivo, descripcion, entregable, inicio_act, fin_act, impacto_beneficio, medio_comunicacion, medio_entrega, observaciones, documentos_id_doc ) VALUES ';
+                        for (const actividadObj of actividades) {
+                            let {titulo, objetivo, descripcion, entregable, fechaIni, fechaFin, beneficio, comunicacion, entrega, observacion } = actividadObj;    
+                            insertValues.push( `( '${titulo}', '${objetivo}', '${descripcion}', '${entregable}', '${fechaIni}', '${fechaFin}', '${beneficio}', '${comunicacion}', '${entrega}', '${observacion}', '${documentId}' )` );
+                        }
+                        queryTemplate = queryTemplate + insertValues.join(',') + ';';
+                        console.log('formatedQuery: ', queryTemplate);
+                        mysqlConn.ejecutarInsert( queryTemplate, (err, result) => {
+                            if (err) {
+                                res.status(400).json({
+                                    ok: false,
+                                    mensaje: "Error al guardar actividades",
+                                    error: err
+                                });
+                            }
+                            else {
+                                // console.log(Result: )
+                                // insertedActsIds.push( result.insertId );
+                                // console.log('insertedActsIds: ' + insertedActsIds.length);
+
+                                // if( insertedActsIds.length > 0 ){
+                                    res.json({
+                                        ok: true,
+                                        mensaje: "Docuemnto guardado correctamente",
+                                        result
+                                    });
+                                // }
+                            }
+
+                        });
+
                     }
 
                 });
-
-            }
-
-        });
+            });
+        
 
     }else{
         res.status(500).json({
@@ -197,7 +215,7 @@ app.get('/documento/historial/', (req, res) => {
     let mensaje = '';
 
     mysqlConn = new MySQL();
-    let query  = `SELECT id_doc, fecha_inicio, fecha_fin, fecha_creacion,estado, usuarios.nombres, usuarios.apellido_pat, usuarios.apellido_mat, departamentos.nombre as departamento `;
+    let query  = `SELECT id_doc, fecha_inicio, fecha_fin, fecha_creacion,estado, folio_usuario, usuarios.nombres, usuarios.apellido_pat, usuarios.apellido_mat, departamentos.nombre as departamento `;
         query += `FROM documentos INNER JOIN usuarios ON usuarios_id = id INNER JOIN departamentos ON usuarios.departamentos_id_dept = id_dept `;
         query += {
             1: `ORDER BY id_doc ASC;`,
@@ -226,7 +244,8 @@ app.get('/documento/historial/', (req, res) => {
                         estado:registro.estado,
                         nombreCompleto: `${registro.nombres} ${registro.apellido_pat} ${registro.apellido_mat}`,
                         departamento: registro.departamento,
-                        rol
+                        rol, 
+                        folio: registro.folio_usuario 
                     });
 
                 }
@@ -281,6 +300,7 @@ app.get('/documentos', (req, res) => {
         hayError ? res.status(400).json({ ok: false, mensaje, error: err }) : res.json(response);
     });
 });
+
 app.put('/documentos/:id', function (req, res) {
   //obtenemos id por url
     let id = req.params.id,
@@ -307,5 +327,33 @@ app.put('/documentos/:id', function (req, res) {
             }
         })
     }  
-})
+});
+
+app.put('/observaciones/:id', (req, res ) => {
+    let id = req.params.id,
+        observaciones = req.body.observaciones,
+        queryTemplate = '',
+        formatedQuery = '',
+        mysqlConn = null;
+    
+    if( observaciones ){
+        mysqlConn = new MySQL();
+        queryTemplate  = `UPDATE documentos SET observaciones = ?  WHERE  id_doc = ? LIMIT 1;`;
+        values = [tipo, id];
+        formatedQuery = mysqlConn.conection.format(queryTemplate, values);
+        console.log('formatedQuery: ', formatedQuery);
+        mysqlConn.ejecutarQuery(formatedQuery,(err,registro) => {
+            if(err){
+            hayError = true;
+            mensaje = "Error al actualizar documento";
+            }else{
+                res.json({
+                    ok: true,
+                    mensaje: "Documento actualizado"
+                });
+            }
+        })
+    }
+});
+
 module.exports = app;

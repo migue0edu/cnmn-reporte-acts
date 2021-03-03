@@ -19,8 +19,9 @@ const pintaHistorial = () => {
 		type: "get",
 		success: (response) => {
 			$.each(response, function( index, value ) {
-				let fecha = "", estado = "", clase = "", opciones = ""
+				let fecha = "", estado = "", clase = "", opciones = "", indice = 0;
 				value.creacion == null ? fecha = value.creacion : fecha = value.creacion.split("T")[0];
+				indice = value.rol == 2 ? value.folio : value.id
 				switch(value.estado){
 					case 0:
 						estado = "Pendiente";
@@ -45,7 +46,7 @@ const pintaHistorial = () => {
 				}
 			  	$("#body-historial").append(
 					'<tr class="text-center" style="vertical-align: middle;">'+
-						'<td style="vertical-align: middle;">'+value.id+'</td>'+
+						'<td style="vertical-align: middle;">'+indice+'</td>'+
 						'<td style="vertical-align: middle;"><b>'+value.nombreCompleto+'</b></td>'+
 						'<td style="vertical-align: middle;">'+value.departamento+'</td>'+
 						'<td style="vertical-align: middle;">'+fecha+'</td>'+

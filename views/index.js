@@ -5,7 +5,7 @@ const app = express();
 /* Poner aquí las vistas */
 
 app.get('/',  (req, res) =>  {
-	//home o index pagina prinicpal
+	return res.redirect('/views/login');
 })
 
 app.get('/views/reporte', function (req, res) {
