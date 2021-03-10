@@ -191,7 +191,8 @@ const pdf = (reporte,empleado) => {
 		align:'center'
 	});
 	cancelar();
-	doc.save("reporte.pdf");
+	window.open(doc.output('bloburl'), '_blank');
+	//doc.output('dataurlnewwindow');
 }
 const revision = (id,tipo) => {
 	$.ajax({
