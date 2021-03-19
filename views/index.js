@@ -35,6 +35,10 @@ app.get('/views/contacto', function (req, res) {
   res.render('contacto');
 });
 
+app.get('/views/password', function (req, res) {
+  res.render('password');
+});
+
 app.get('/views/historial', function (req, res) {
   if( !req.session.userId ){
     return res.redirect('/views/login');

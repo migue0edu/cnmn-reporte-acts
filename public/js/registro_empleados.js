@@ -10,7 +10,7 @@ $(document).ready( () => {
 			data: form,
 			success: (response) => {
 				document.getElementById("registro").reset();
-				alert("Usuario agregado con éxito")
+				alert("Usuario agregado con éxito,Contraseña predeterminada:cnmn2021")
 				window.location.assign("/views/reporte")
 			},
 			error: (response) => {

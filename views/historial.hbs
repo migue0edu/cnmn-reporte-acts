@@ -49,6 +49,60 @@
 		</div>
 	</div>
 </div>
+<div class="modal" tabindex="-1" id="ObservacionesJefe" role="dialog" data-id="" data-tipo="">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title text-center"><i class="fas fa-exclamation-triangle text-info"></i>&nbsp &nbsp Observaciones</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-12">
+						<textarea id="textJefe" class="form-control" aria-label="With textarea" placeholder="Ingrese las observaciones"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="container-fluid">
+					<div class="row justify-content-center">
+						<div class="col-6">
+							<button type="button" class="btn btn-block btn-success" onclick="enviarObservacion();">Enviar</button>
+						</div>
+						<div class="col-6">
+							<button type="button" class="btn btn-block btn-success" onclick="limpiaObservaciones();">Cancelar</button>
+						</div>		
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" tabindex="-1" id="ObservacionesEmpleado" role="dialog" data-id="" data-tipo="">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title text-center"><i class="fas fa-exclamation-triangle text-info"></i>&nbsp &nbsp Observaciones</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-12">
+						<textarea id="textEmpleado" class="form-control" aria-label="With textarea" placeholder="Ingrese las observaciones"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="container-fluid">
+					<div class="row justify-content-center">
+						
+						<div class="col-6">
+							<button type="button" class="btn btn-block btn-success" onclick="limpiaObservaciones();" id="btn-modal">Aceptar</button>
+						</div>			
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript" src="../public/js/historial.js"></script>	
 <script type="text/javascript" src="../public/assets/static/jquery-ui.min.js"></script>
 <script type="text/javascript" src="../public/assets/static/jspdf.min.js"></script>

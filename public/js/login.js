@@ -3,13 +3,13 @@ $(document).ready( () => {
     $("#log-in").submit( ()  => {
         event.preventDefault();
         let usuario = $("#usuario").val().trim(),
-        curp    = $("#curp").val().trim();
+            password = $("#password").val().trim();
         $("#btn-inicia").prop("disabled",true)
         $.ajax({
             url: "/login",
             dataType: "json",
             type: "post",
-            data: {usuario, curp},
+            data: {usuario, password},
             success: (response) => {
                 if(response.result==false){
                     $("#msg").css("display","inline-block")
@@ -22,7 +22,7 @@ $(document).ready( () => {
             },
             error:(response) => {
                 $("#btn-inicia").prop("disabled","false")
-                alert(response);
+                alert("Error, contacte al administrador.");
             }
         })
     })

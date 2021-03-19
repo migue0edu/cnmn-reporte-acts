@@ -27,21 +27,25 @@ const pintaHistorial = () => {
 						estado = "Pendiente";
 						clase = "text-warning";
 						if(value.rol==2)
-							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'+
+									 '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>';
 						else
 							opciones = '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
 							   '<a class="text-success" data-toggle="tooltip" data-placement="bottom" title="Aceptar reporte" onclick="revision('+value.id+',1)"><i class="far fa-check-circle fa-2x"></i></a> &nbsp'+
-							   '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Cancelar reporte" onclick="revision('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>';
+							   '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Cancelar reporte" onclick="revision('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>'+
+							   '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',1)"><i class="far fa-times-circle fa-2x"></i></a>';
 					break;
 					case 1:
 						estado = "Aceptado";
 						clase = "text-success";
-						opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'
+						opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'+
+								 '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>';
 					break;
 					case 2:
 						estado = "Rechazado"
 						clase = "text-danger"
-						opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'
+						opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'+
+								'<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>';
 					break;
 				}
 			  	$("#body-historial").append(
@@ -208,4 +212,61 @@ const revision = (id,tipo) => {
 			alert("A ocurrido un error al actualizar el registro")
 		}
 	})
+}
+const observaciones = (id,tipo) => {
+	//Tipo 1 pertenece a los jefes;rol=3
+	//Tipo 2 pertenece a empleados;rol=2	
+	if(tipo==1){
+		$("#ObservacionesJefe").modal({backdrop: 'static', keyboard: false, show: true})
+		$("#ObservacionesJefe").attr("data-id",id)
+		$("#ObservacionesJefe").attr("data-tipo",tipo)
+	} else{
+		$("#ObservacionesEmpleado").modal({backdrop: 'static', keyboard: false, show: true})
+		$("#ObservacionesEmpleado").attr("data-id",id)
+		$("#ObservacionesEmpleado").attr("data-tipo",tipo)
+		verObservacion(id,tipo);
+	}
+}
+const enviarObservacion = () => {
+	let observacion = $("#textJefe").val(),
+		id = $("#ObservacionesJefe").attr("data-id"),
+		tipo = $("#ObservacionesJefe").attr("data-tipo")
+	$.ajax({
+		url: "/documentos/observaciones",
+		dataType:"json",
+		type:"put",
+		data:{id,tipo},
+		success:(response) => {
+			alert("Observación actualizada con éxito")
+			location.reload();
+		},
+		error:(response) => {
+			alert("A ocurrido un error al actualizar el registro")
+		}
+	})
+}
+const verObservacion = (id,tipo) => {
+	$.ajax({
+		url: "/documentos/observaciones",
+		dataType:"json",
+		type:"post",
+		data:{id,tipo},
+		success:(response) => {
+			if(response.observacion==null){
+				$("#textEmpleado").val("No hay observacion registrada.")
+			}else
+				$("#textEmpleado").val(response.observacion)
+		},
+		error:(response) => {
+			alert("A ocurrido un error en el sistema")
+		}
+	})
+}
+const limpiaObservaciones = () =>{
+	$("#ObservacionesJefe").attr("data-id","")
+	$("#ObservacionesJefe").attr("data-tipo","")
+	$("#ObservacionesEmpleado").attr("data-id","")
+	$("#ObservacionesEmpleado").attr("data-tipo","")
+	$("#ObservacionesJefe").modal({backdrop: 'static', keyboard: false, show: false})
+	$("#ObservacionesEmpleado").modal({backdrop: 'static', keyboard: false, show: false})
 }
