@@ -215,7 +215,7 @@ app.get('/documento/historial/', (req, res) => {
     let mensaje = '';
 
     mysqlConn = new MySQL();
-    let query  = `SELECT id_doc, fecha_inicio, fecha_fin, fecha_creacion,estado, folio_usuario, usuarios.nombres, usuarios.apellido_pat, usuarios.apellido_mat, departamentos.nombre as departamento `;
+    let query  = `SELECT id_doc, fecha_inicio, fecha_fin, fecha_creacion,estado, folio_usuario, usuarios.nombres, usuarios.apellido_pat, usuarios.apellido_mat, departamentos.nombre as departamento, observaciones  `;
         query += `FROM documentos INNER JOIN usuarios ON usuarios_id = id INNER JOIN departamentos ON usuarios.departamentos_id_dept = id_dept `;
         query += {
             1: `ORDER BY id_doc ASC;`,
@@ -227,7 +227,7 @@ app.get('/documento/historial/', (req, res) => {
 
     getDocument( query, mysqlConn, (err, db_doc) => {
         if(err){
-            hayError = true;
+            console.log('err:' + JSON.stringify(err) );
             mensaje = "Error al obtener documento";
         }else{
             console.log('db_doc: ' + JSON.stringify(db_doc));
@@ -339,7 +339,7 @@ app.put('/observaciones/:id', (req, res ) => {
     if( observaciones ){
         mysqlConn = new MySQL();
         queryTemplate  = `UPDATE documentos SET observaciones = ?  WHERE  id_doc = ? LIMIT 1;`;
-        values = [tipo, id];
+        values = [observaciones, id];
         formatedQuery = mysqlConn.conection.format(queryTemplate, values);
         console.log('formatedQuery: ', formatedQuery);
         mysqlConn.ejecutarQuery(formatedQuery,(err,registro) => {
