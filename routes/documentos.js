@@ -245,7 +245,8 @@ app.get('/documento/historial/', (req, res) => {
                         nombreCompleto: `${registro.nombres} ${registro.apellido_pat} ${registro.apellido_mat}`,
                         departamento: registro.departamento,
                         rol, 
-                        folio: registro.folio_usuario
+                        folio: registro.folio_usuario,
+                        observaciones:registro.observaciones
                     });
 
                 }
