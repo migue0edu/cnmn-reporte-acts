@@ -27,25 +27,35 @@ const pintaHistorial = () => {
 						estado = "Pendiente";
 						clase = "text-warning";
 						if(value.rol==2)
-							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'+
-									 '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>';
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
+									 '<a class="text-info" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',2)"><i class="far fa-eye fa-2x"></i></a>';
 						else
 							opciones = '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
 							   '<a class="text-success" data-toggle="tooltip" data-placement="bottom" title="Aceptar reporte" onclick="revision('+value.id+',1)"><i class="far fa-check-circle fa-2x"></i></a> &nbsp'+
-							   '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Cancelar reporte" onclick="revision('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>'+
-							   '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',1)"><i class="far fa-times-circle fa-2x"></i></a>';
+							   '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Cancelar reporte" onclick="revision('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>  &nbsp'+
+							   '<a class="text-info" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',1)"><i class="far fa-eye fa-2x"></i></i></a>';
 					break;
 					case 1:
 						estado = "Aceptado";
 						clase = "text-success";
-						opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'+
-								 '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>';
+						if( value.rol == 2){
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
+								 '<a class="text-info" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',2)"><i class="far fa-eye fa-2x"></i></a>';
+						}else{
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
+									 '<a class="text-info" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',1)"><i class="far fa-eye fa-2x"></i></a>';
+						}
 					break;
 					case 2:
 						estado = "Rechazado"
 						clase = "text-danger"
-						opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>'+
-								'<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>';
+						if( value.rol == 2){
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
+							'<a class="text-info" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',2)"><i class="far fa-eye fa-2x"></i></a>';
+						}else{
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
+									'<a class="text-info" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="observaciones('+value.id+',1)"><i class="far fa-eye fa-2x"></i></a>';
+						}
 					break;
 				}
 			  	$("#body-historial").append(
@@ -220,6 +230,7 @@ const observaciones = (id,tipo) => {
 		$("#ObservacionesJefe").modal({backdrop: 'static', keyboard: false, show: true})
 		$("#ObservacionesJefe").attr("data-id",id)
 		$("#ObservacionesJefe").attr("data-tipo",tipo)
+		verObservacion(id,tipo);
 	} else{
 		$("#ObservacionesEmpleado").modal({backdrop: 'static', keyboard: false, show: true})
 		$("#ObservacionesEmpleado").attr("data-id",id)
@@ -228,17 +239,20 @@ const observaciones = (id,tipo) => {
 	}
 }
 const enviarObservacion = () => {
-	let observacion = $("#textJefe").val(),
-		id = $("#ObservacionesJefe").attr("data-id"),
-		tipo = $("#ObservacionesJefe").attr("data-tipo")
+	let observaciones = $("#textJefe").val(),
+		id = $("#ObservacionesJefe").attr("data-id");
+		
 	$.ajax({
-		url: "/documentos/observaciones",
+		url: "/observaciones/"+id,
 		dataType:"json",
 		type:"put",
-		data:{id,tipo},
+		data:{observaciones},
 		success:(response) => {
-			alert("Observación actualizada con éxito")
-			location.reload();
+			if(response.result == true){
+				alert("Observación actualizada con éxito")
+				location.reload();
+
+			}
 		},
 		error:(response) => {
 			alert("A ocurrido un error al actualizar el registro")
@@ -246,27 +260,37 @@ const enviarObservacion = () => {
 	})
 }
 const verObservacion = (id,tipo) => {
+	console.log('Cargando');
 	$.ajax({
-		url: "/documentos/observaciones",
+		url: "/observaciones/" + id,
 		dataType:"json",
 		type:"post",
 		data:{id,tipo},
 		success:(response) => {
+			console.log('Respuesta');
 			if(response.observacion==null){
-				$("#textEmpleado").val("No hay observacion registrada.")
-			}else
-				$("#textEmpleado").val(response.observacion)
+				document.getElementById('textEmpleado').innerHTML = 'No hay observación registrada.';
+				document.getElementById('textJefe').innerHTML = 'No hay observación registrada.';
+			}else{
+				document.getElementById('textEmpleado').innerHTML = response.observacion;
+				document.getElementById('textJefe').innerHTML = response.observacion;
+
+			}
 		},
 		error:(response) => {
 			alert("A ocurrido un error en el sistema")
 		}
-	})
+	});
+	console.log('Despues ajax');
 }
 const limpiaObservaciones = () =>{
-	$("#ObservacionesJefe").attr("data-id","")
-	$("#ObservacionesJefe").attr("data-tipo","")
-	$("#ObservacionesEmpleado").attr("data-id","")
-	$("#ObservacionesEmpleado").attr("data-tipo","")
-	$("#ObservacionesJefe").modal({backdrop: 'static', keyboard: false, show: false})
-	$("#ObservacionesEmpleado").modal({backdrop: 'static', keyboard: false, show: false})
+	location.reload();
+	// $("#ObservacionesJefe").attr("data-id","")
+	// $("#ObservacionesJefe").attr("data-tipo","")
+	// $("#ObservacionesEmpleado").attr("data-id","")
+	// $("#ObservacionesEmpleado").attr("data-tipo","")
+	// $('#textJefe').val('');
+	// $('#textEmpleado').val('');
+	// $('#ObservacionesJefe').modal('hide')
+	// $('#ObservacionesEmpleado').modal('hide')
 }

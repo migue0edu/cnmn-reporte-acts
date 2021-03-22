@@ -7,11 +7,11 @@ app.post('/login', (req, res) => {
     /* Valida los datos para el incio de sesion */
     let mysqlConn = null;
     if( req.body ){
-        let {usuario, curp} = req.body;
+        let {usuario, password} = req.body;
         mysqlConn = new MySQL();
         let escapeUser = mysqlConn.conection.escape ( `${usuario}` );
-        let escapeCurp = mysqlConn.conection.escape ( `${curp}` );
-        let query = `SELECT id, roles_id_rol, departamentos_id_dept FROM usuarios WHERE clave_empleado = ${escapeUser} AND curp = ${escapeCurp}`;
+        let escapePassword = mysqlConn.conection.escape ( `${password}` );
+        let query = `SELECT id, roles_id_rol, departamentos_id_dept FROM usuarios WHERE clave_empleado = ${escapeUser} AND passw = ${escapePassword}`;
         mysqlConn.ejecutarQuery( query, (err, dbres) => {
             if (err) {
                 res.json({
@@ -40,6 +40,8 @@ app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/views/login');
 });
+
+
 
 
 module.exports = app;

@@ -41,7 +41,8 @@ app.post('/empleados', (req, res) => {
     
     if( req.body ){
         console.log(req.body.nombre)
-        let {nombre, aPat, aMat, idEmp, curp, tel, ext, mail, depto, passw} = req.body;
+        let {nombre, aPat, aMat, idEmp, curp, tel, ext, mail, depto} = req.body;
+        let passw = 'cnmn2021';
         mysqlConn = new MySQL();
         let queryTemplate =  'INSERT INTO usuarios ( nombres, apellido_pat, apellido_mat, clave_empleado, curp, telefono, extension, correo, roles_id_rol, departamentos_id_dept, passw) ';
             queryTemplate += 'VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -101,6 +102,62 @@ app.get('/empleado/:id', (req, res) => {
                     depto: db_user[0].depto
                 });
             }
+        });
+    }
+});
+
+app.post('/password', (req, res) => {
+    let mysqlConn = null;
+
+    /* Guarda en la bd un nuevo usuario */
+    console.log( JSON.stringify(req.body) );
+
+    if( req.body ){
+        console.log(req.body.nombre)
+        mysqlConn = new MySQL();
+        let {actual, nueva, confirmacion} = req.body;
+        let escapePassw = mysqlConn.conection.escape ( `${actual}` );
+        let escapeNueva = mysqlConn.conection.escape ( `${nueva}` );
+
+        let query =  `SELECT passw FROM usuarios WHERE passw = ${escapePassw} AND id = ${req.session.userId}`;
+        
+        mysqlConn.ejecutarQuery( query, (err, dbres) => {
+            if (err) {
+                res.json({
+                    result: false,
+                    message: "No se a encontrado el registro solicitado."
+                })                
+            }
+            else {
+                console.log('PASSWORD: ' + JSON.stringify(dbres));
+                if(dbres.length > 0){
+
+                    let updateQuery = `UPDATE usuarios SET passw = ${escapeNueva} WHERE id = ${req.session.userId} LIMIT 1`;
+                    mysqlConn.ejecutarQuery( updateQuery, (er, dbr) => {
+                        if (er) {
+                            res.json({
+                                result: false,
+                                message: "No se ah posido actualizar el registro."
+                            })                
+                        }else{
+                            console.log('PASSWORD Actualizado.');
+                        }
+                        
+                    })
+
+                    res.json({result:true});
+                }else{
+                    res.json({
+                        result: false
+                    });
+                }
+            }
+        });
+
+
+    }else{
+        res.status(500).json({
+            ok: false
         });
     }
 });

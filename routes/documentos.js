@@ -245,7 +245,7 @@ app.get('/documento/historial/', (req, res) => {
                         nombreCompleto: `${registro.nombres} ${registro.apellido_pat} ${registro.apellido_mat}`,
                         departamento: registro.departamento,
                         rol, 
-                        folio: registro.folio_usuario 
+                        folio: registro.folio_usuario
                     });
 
                 }
@@ -344,16 +344,44 @@ app.put('/observaciones/:id', (req, res ) => {
         console.log('formatedQuery: ', formatedQuery);
         mysqlConn.ejecutarQuery(formatedQuery,(err,registro) => {
             if(err){
-            hayError = true;
-            mensaje = "Error al actualizar documento";
+                mensaje = "Error al actualizar documento";
+                res.json({
+                    result: false
+                });
             }else{
                 res.json({
-                    ok: true,
-                    mensaje: "Documento actualizado"
+                    result: true
                 });
             }
         })
     }
 });
+
+app.post('/observaciones/:id', (req, res ) => {
+    let id = req.body.id,
+        queryTemplate = '',
+        formatedQuery = '',
+        mysqlConn = null;
+    
+    if( id ){
+        mysqlConn = new MySQL();
+        queryTemplate  = `SELECT observaciones FROM documentos WHERE id_doc = ${id}`;
+        mysqlConn.ejecutarQuery(queryTemplate,(err,registro) => {
+            if(err){
+                mensaje = "Error al actualizar documento";
+                res.json({
+                    result: false
+                });
+            }else{
+                console.log('Get obsetvaciones: ' +  JSON.stringify(registro));
+                res.json({
+                    result: true,
+                    observacion: registro[0].observaciones
+                });
+            }
+        })
+    }
+});
+
 
 module.exports = app;

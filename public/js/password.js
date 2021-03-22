@@ -14,7 +14,7 @@ $(document).ready( () => {
                 success: (response) => {
                     if(response.result==true){
                         alert("Contraseña actualizada con éxito.")
-                        $("#log-in")[0].reset()
+                        $("#formPassword")[0].reset()
                         window.location ="/views/reporte"
                     } else
                         alert("La contraseña actual no coincide")
