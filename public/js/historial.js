@@ -32,9 +32,9 @@ const pintaHistorial = ( tipo ) => {
 				let fecha = "", estado = "", clase = "", opciones = "", indice = 0 , hayObservacion="", claseObs="";
 				hayObservacion = value.observaciones;
 				if(hayObservacion == null)
-					claseObs="text-dark"
+					claseObs="text-success"
 				else
-					claseObs="text-info"
+					claseObs="text-danger"
 				value.creacion == null ? fecha = value.creacion : fecha = value.creacion.split("T")[0];
 				indice = value.rol == 2 ? value.folio : value.id
 				switch(value.estado){
@@ -43,22 +43,22 @@ const pintaHistorial = ( tipo ) => {
 						clase = "text-warning";
 						if(value.rol==2)
 							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
-									 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2)"><i class="far fa-eye fa-2x"></i></a>';
+									 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2)"><i class="fas fa-traffic-light fa-2x"></i></a>';
 						else
 							opciones = '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
 							   '<a class="text-success" data-toggle="tooltip" data-placement="bottom" title="Aceptar reporte" onclick="revision('+value.id+',1)"><i class="far fa-check-circle fa-2x"></i></a> &nbsp'+
 							   '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Cancelar reporte" onclick="revision('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>  &nbsp'+
-							   '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1)"><i class="far fa-eye fa-2x"></i></i></a>';
+							   '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1)"><i class="fas fa-traffic-light fa-2x"></i></a>';
 					break;
 					case 1:
 						estado = "Aceptado";
 						clase = "text-success";
 						if( value.rol == 2){
 							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
-								 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2)"><i class="far fa-eye fa-2x"></i></a>';
+								 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2)"><i class="fas fa-traffic-light fa-2x"></i></a>';
 						}else{
 							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
-									 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1)"><i class="far fa-eye fa-2x"></i></a>';
+									 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1)"><i class="fas fa-traffic-light fa-2x"></i></a>';
 						}
 					break;
 					case 2:
@@ -66,10 +66,10 @@ const pintaHistorial = ( tipo ) => {
 						clase = "text-danger"
 						if( value.rol == 2){
 							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
-							'<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2)"><i class="far fa-eye fa-2x"></i></a>';
+							'<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2)"><i class="fas fa-traffic-light fa-2x"></i></a>';
 						}else{
 							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
-									'<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1)"><i class="far fa-eye fa-2x"></i></a>';
+									'<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1)"><i class="fas fa-traffic-light fa-2x"></i></a>';
 						}
 					break;
 				}
@@ -246,6 +246,7 @@ const observaciones = (id,tipo) => {
 		$("#ObservacionesJefe").modal({backdrop: 'static', keyboard: false, show: true})
 		$("#ObservacionesJefe").attr("data-id",id)
 		$("#ObservacionesJefe").attr("data-tipo",tipo)
+		document.getElementById("head-boss").innerHTML = `Folio: ${id}`;
 		if(obs=="null")
 			console.log("sin observaciones")
 		else
@@ -254,6 +255,7 @@ const observaciones = (id,tipo) => {
 		$("#ObservacionesEmpleado").modal({backdrop: 'static', keyboard: false, show: true})
 		$("#ObservacionesEmpleado").attr("data-id",id)
 		$("#ObservacionesEmpleado").attr("data-tipo",tipo)
+		document.getElementById("head-emp").innerHTML = `Folio: ${id}`;
 		if(obs=="null")
 			console.log("sin observaciones")
 		else
