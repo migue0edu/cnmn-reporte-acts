@@ -15,7 +15,7 @@ let contador = 1;
 let tabla1 = [];
 $(document).ready( () => {
 	$('[data-toggle="tooltip"]').tooltip();
-	$("#fechaI,#fechaF").datetimepicker({
+	$("#fechaI,#fechaF,#actFechaI,#actFechaF").datetimepicker({
 		language:  'es',
 		format: "yyyy-mm-dd",
         weekStart: 1,
@@ -26,10 +26,17 @@ $(document).ready( () => {
 		minView: 2,
 		forceParse: 0
 	});
-	$("#actFechaI,#actFechaF").datetimepicker({
-		language:  'es',
-		autoclose: 1
-	});
+	// $("#actFechaI,#actFechaF").datetimepicker({
+	// 	language:  'es',
+	// 	format: "yyyy-mm-dd",
+    //     weekStart: 1,
+    //     todayBtn:  1,
+	// 	autoclose: 1,
+	// 	todayHighlight: 1,
+	// 	startView: 2,
+	// 	minView: 2,
+	// 	forceParse: 0
+	// });
 	/*$("#autoEmp").autocomplete(
 	{
 		minLength: 2,
@@ -91,10 +98,16 @@ $(document).ready( () => {
 	})
 	$("#btnFecha").click( () => {
 		let inicio = $("#fechaI").val(),
-			fin = $("#fechaF").val()
+		fin = $("#fechaF").val()
 		if(inicio && fin){
+			newInicio = inicio.split('-');
+			newInicio = newInicio[2] + '-' + newInicio[1] + '-' + newInicio[0];
+			newFin = fin.split('-');
+			newFin = newFin[2] + '-' + newFin[1] + '-' + newFin[0];
 			documento.fecha.fechaI = inicio
+			documento.fecha.newfechaI = newInicio
 			documento.fecha.fechaF = fin
+			documento.fecha.newfechaF = newFin
 			$("#card-actividades").css("display","flex")
 			$("#rowBtnTiempo").css("display","none")
 		} else
@@ -106,7 +119,11 @@ $(document).ready( () => {
 			descripcion = $("#descripcion").val(),
 			entregable = $("#entregable").val(),
 			fechaIni = $("#actFechaI").val(),
+			splitFechaIni = fechaIni.split('-'),
+			newFechaIni = splitFechaIni[2] + '-' + splitFechaIni[1] + '-' + splitFechaIni[0],
 			fechaFin = $("#actFechaF").val(),
+			splitFechaFin = fechaFin.split('-'),
+			newFechaFin = splitFechaFin[2] + '-' + splitFechaFin[1] + '-' + splitFechaFin[0],
 			beneficio = $("#beneficio").val(),
 			comunicacion = $("#comunicacion").val(),
 			entrega = $("#entrega").val(),
@@ -118,7 +135,9 @@ $(document).ready( () => {
 				descripcion,
 				entregable,
 				fechaIni,
+				newFechaIni,
 				fechaFin,
+				newFechaFin,
 				beneficio,
 				comunicacion,
 				entrega,
@@ -243,7 +262,7 @@ const pdf = () => {
 	doc.text('Designación y seguimiento  de actividades laborales para el personal del CNMN.',18,48);
 	doc.setFontSize(11)
 	doc.text("Fecha de generación: "+f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear(),214,45)
-	doc.text("Periodo de reporte: "+documento.fecha.fechaI+" A "+documento.fecha.fechaF,214,51)
+	doc.text("Periodo de reporte: "+documento.fecha.newfechaI+" A "+documento.fecha.newfechaF,214,51)
 	doc.setFontSize(14)
 	doc.text('Datos del empleado',130,58);
 	//Generamos datos del empleado
@@ -266,6 +285,8 @@ const pdf = () => {
 	var data2 = [];
 	for(var item in documento.actividades){
 		var elemento = documento.actividades[item]
+		delete elemento.fechaIni;
+		delete elemento.fechaFin;
  		var arr = [item];
   		arr = arr.concat(Object.values(elemento));
 		data2.push(arr)

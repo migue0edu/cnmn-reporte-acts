@@ -1,10 +1,12 @@
 $(document).ready( () => {
 	$('[data-toggle="tooltip"]').tooltip();
-	pintaHistorial();
+	pintaHistorial(0);
 
-/*	$("#filtro").change(() => {
-       pintaHistorial();
-    });*/
+	$("#filtro").change(() => {
+		let valorFiltro = $("#filtro").val();
+		document.getElementById('body-historial').innerHTML = '';
+		pintaHistorial(valorFiltro);
+	});
 });
 let empleado = {
 	nombre:"",
@@ -16,16 +18,16 @@ let empleado = {
     correo: "",
     depto: 0
 }
-const pintaHistorial = () => {
+const pintaHistorial = ( tipo ) => {
 	$.ajax({
-		url: "/documento/historial/",
+		url: "/documento/historial/" + tipo,
 		dataType: "json",
 		type: "get",
 		success: (response) => {
-			/*if(response.rol==2)
+			if(response[0].rol==2)
 				$("#rowFiltro").css("display","none")
 			else
-				$("#rowFiltro").css("display","block")*/
+				$("#rowFiltro").css("display","block")
 			$.each(response, function( index, value ) {
 				let fecha = "", estado = "", clase = "", opciones = "", indice = 0 , hayObservacion="", claseObs="";
 				hayObservacion = value.observaciones;

@@ -24,7 +24,12 @@ let generarFolio = (empleado) => {
         if(err){
             reject( err );
         }
-            resolve( parseInt(result[0].ultimo_folio) + 1 );
+            console.log( 'FOLIO: ' + JSON.stringify(result));
+            if( !result[0].ultimo_folio ){
+                resolve( 1 );
+            }else{
+                resolve( parseInt(result[0].ultimo_folio) + 1 );
+            }
         });
     });
 };
@@ -154,7 +159,7 @@ app.get('/documentos/:id', (req, res) => {
     if( idDocument ){
         mysqlConn = new MySQL();
         let escapeId = mysqlConn.conection.escape ( `${idDocument}` );
-        let query  = `SELECT fecha_creacion,fecha_inicio, fecha_fin, usuarios_id, actividades.* FROM documentos INNER JOIN actividades `;
+        let query  = `SELECT DATE_FORMAT(fecha_creacion, "%d-%m-%Y") as fecha_creacion, DATE_FORMAT(fecha_inicio, "%d-%m-%Y") as fecha_inicio,  DATE_FORMAT(fecha_fin, "%d-%m-%Y") as fecha_fin,  usuarios_id, actividades.*, DATE_FORMAT(actividades.inicio_act, "%d-%m-%Y") as act_ini, DATE_FORMAT(actividades.fin_act, "%d-%m-%Y") as act_fin FROM documentos INNER JOIN actividades `;
             query += `ON id_doc = documentos_id_doc where id_doc = ${idDocument};`
         console.log('Query Documento: ' + query);
 
@@ -180,8 +185,8 @@ app.get('/documentos/:id', (req, res) => {
                             objetivo: registro.objetivo,
                             descripcion: registro.descripcion,
                             entregable: registro.entregable,
-                            fechaIni: JSON.stringify(registro.inicio_act).split("T")[0],
-                            fechaFin: JSON.stringify(registro.fin_act).split("T")[0],
+                            fechaIni: registro.act_ini,
+                            fechaFin: registro.act_fin,
                             beneficio: registro.impacto_beneficio,
                             comunicacion: registro.medio_comunicacion,
                             entrega: registro.medio_entrega,
@@ -199,7 +204,7 @@ app.get('/documentos/:id', (req, res) => {
 
 });
 
-app.get('/documento/historial/', (req, res) => {
+app.get('/documento/historial/:tipo', (req, res) => {
 
     if( !req.session.userId ){
         return  res.status(401).json({ ok: false, mensaje: "Sin autorización" });
@@ -214,14 +219,18 @@ app.get('/documento/historial/', (req, res) => {
     let hayError = false;
     let mensaje = '';
 
+    const tipo = req.params.tipo || 0;
+
+    let orderby = tipo == 0 ? 'id_doc ASC' : 'nombres, id_doc ASC';
+
     mysqlConn = new MySQL();
-    let query  = `SELECT id_doc, fecha_inicio, fecha_fin, fecha_creacion,estado, folio_usuario, usuarios.nombres, usuarios.apellido_pat, usuarios.apellido_mat, departamentos.nombre as departamento, observaciones  `;
+    let query  = `SELECT id_doc, DATE_FORMAT(fecha_inicio," %d-%m-%Y") as fecha_inicio, DATE_FORMAT(fecha_fin," %d-%m-%Y") as fecha_fin, DATE_FORMAT(fecha_creacion," %d-%m-%Y") as fecha_creacion,estado, folio_usuario, usuarios.nombres, usuarios.apellido_pat, usuarios.apellido_mat, departamentos.nombre as departamento, observaciones  `;
         query += `FROM documentos INNER JOIN usuarios ON usuarios_id = id INNER JOIN departamentos ON usuarios.departamentos_id_dept = id_dept `;
         query += {
-            1: `ORDER BY id_doc ASC;`,
-            2: `WHERE usuarios.id = ${user} ORDER BY id_doc ASC;`,
-            3: `WHERE usuarios.departamentos_id_dept = ${depto} ORDER BY id_doc ASC;`,
-            4: `ORDER BY id_doc ASC;`
+            1: `ORDER BY ${orderby};`,
+            2: `WHERE usuarios.id = ${user} ORDER BY ${orderby};`,
+            3: `WHERE usuarios.departamentos_id_dept = ${depto} ORDER BY ${orderby};`,
+            4: `ORDER BY ${orderby};`
         }[rol];
     console.log('Query Documento: ' + query);
 
