@@ -227,10 +227,10 @@ app.get('/documento/historial/:tipo', (req, res) => {
     let query  = `SELECT id_doc, DATE_FORMAT(fecha_inicio," %d-%m-%Y") as fecha_inicio, DATE_FORMAT(fecha_fin," %d-%m-%Y") as fecha_fin, DATE_FORMAT(fecha_creacion," %d-%m-%Y") as fecha_creacion,estado, folio_usuario, usuarios.nombres, usuarios.apellido_pat, usuarios.apellido_mat, departamentos.nombre as departamento, observaciones  `;
         query += `FROM documentos INNER JOIN usuarios ON usuarios_id = id INNER JOIN departamentos ON usuarios.departamentos_id_dept = id_dept `;
         query += {
-            1: `ORDER BY ${orderby};`,
-            2: `WHERE usuarios.id = ${user} ORDER BY ${orderby};`,
-            3: `WHERE usuarios.departamentos_id_dept = ${depto} ORDER BY ${orderby};`,
-            4: `ORDER BY ${orderby};`
+            1: `WHERE eliminado=0 ORDER BY ${orderby};`,
+            2: `WHERE usuarios.id = ${user} AND eliminado=0 ORDER BY ${orderby};`,
+            3: `WHERE usuarios.departamentos_id_dept = ${depto} AND eliminado=0 ORDER BY ${orderby};`,
+            4: `WHERE eliminado=0 ORDER BY ${orderby};`
         }[rol];
     console.log('Query Documento: ' + query);
 
@@ -329,6 +329,32 @@ app.put('/documentos/:id', function (req, res) {
             if(err){
             hayError = true;
             mensaje = "Error al obtener documento";
+            }else{
+                res.json({
+                    ok: true,
+                    mensaje: "Registro actualizado"
+                });
+            }
+        })
+    }  
+});
+
+app.put('/documento/delete/:id', function (req, res) {
+  //obtenemos id por url
+    let id = req.params.id,
+        queryTemplate = '',
+        formatedQuery = '',
+        mysqlConn = null;
+    if(id){
+        mysqlConn = new MySQL();
+        queryTemplate  = `UPDATE documentos SET eliminado = 1  WHERE  id_doc = ? LIMIT 1;`;
+        values = [id];
+        formatedQuery = mysqlConn.conection.format(queryTemplate, values);
+        console.log('formatedQuery: ', formatedQuery);
+        mysqlConn.ejecutarQuery(formatedQuery,(err,registro) => {
+            if(err){
+            hayError = true;
+            mensaje = "Error al realizar el registro";
             }else{
                 res.json({
                     ok: true,

@@ -14,9 +14,17 @@
 			<script src="https://kit.fontawesome.com/8d86f52526.js" crossorigin="anonymous"></script>
 			<script type="text/javascript" src="../public/assets/static/datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 			<script type="text/javascript" src="../public/assets/static/datetimepicker/js/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
+			<style type="text/css">			
+			body{
+				  background: url('../public/assets/fondo.jpg') center center fixed;
+				  background-size: cover;
+				  height: 100%;
+				  /*overflow: hidden;*/
+				}
+		</style>
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(104, 36, 68, 0.98);">
+		<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003653;">
 			<a class="navbar-brand" href="#">
 				<img src="../public/assets/nanotecnologias.jpg" width="80" height="40" class="d-inline-block align-top" alt="" loading="lazy">
 			</a>
@@ -26,20 +34,20 @@
 		  	<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item active">
-						<a class="nav-link" href="#">Bienvenido {{ user.nombre }}  {{ user.aPat}} <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="#" style="color:#00E6E9; font-weight: bold;">Bienvenido {{ user.nombre }}  {{ user.aPat}} <span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/views/password">Contraseña</a>
+						<a class="nav-link" href="/views/password" style="color:#00E6E9">Contraseña</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/views/reporte">Generar Reporte</a>
+						<a class="nav-link" href="/views/reporte" style="color:#00E6E9">Generar Reporte</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/views/historial">Ver Reportes</a>
+						<a class="nav-link" href="/views/historial" style="color:#00E6E9">Ver Reportes</a>
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right ml-auto">
-					<li class="nav-item"><a class="nav-link" href="/logout">Salir</a></li>
+					<li class="nav-item"><a class="nav-link" href="/logout" style="color:#00E6E9">Salir</a></li>
 				</ul>
 			</div>
 		</nav>

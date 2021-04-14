@@ -42,34 +42,34 @@ const pintaHistorial = ( tipo ) => {
 						estado = "Pendiente";
 						clase = "text-warning";
 						if(value.rol==2)
-							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
-									 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2)"><i class="fas fa-traffic-light fa-2x"></i></a>';
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+','+indice+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
+									 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2,'+indice+')"><i class="fas fa-traffic-light fa-2x"></i></a>';
 						else
-							opciones = '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
+							opciones = '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+','+indice+')"><i class="far fa-file-pdf fa-2x"></i></a> &nbsp'+
 							   '<a class="text-success" data-toggle="tooltip" data-placement="bottom" title="Aceptar reporte" onclick="revision('+value.id+',1)"><i class="far fa-check-circle fa-2x"></i></a> &nbsp'+
 							   '<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Cancelar reporte" onclick="revision('+value.id+',2)"><i class="far fa-times-circle fa-2x"></i></a>  &nbsp'+
-							   '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1)"><i class="fas fa-traffic-light fa-2x"></i></a>';
+							   '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1,'+indice+')"><i class="fas fa-traffic-light fa-2x"></i></a>';
 					break;
 					case 1:
 						estado = "Aceptado";
 						clase = "text-success";
 						if( value.rol == 2){
-							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
-								 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2)"><i class="fas fa-traffic-light fa-2x"></i></a>';
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+','+indice+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
+								 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2,'+indice+')"><i class="fas fa-traffic-light fa-2x"></i></a>';
 						}else{
-							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
-									 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1)"><i class="fas fa-traffic-light fa-2x"></i></a>';
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+','+indice+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
+									 '<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1,'+indice+')"><i class="fas fa-traffic-light fa-2x"></i></a>';
 						}
 					break;
 					case 2:
 						estado = "Rechazado"
 						clase = "text-danger"
 						if( value.rol == 2){
-							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
-							'<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2)"><i class="fas fa-traffic-light fa-2x"></i></a>';
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+','+indice+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
+							'<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',2,'+indice+')"><i class="fas fa-traffic-light fa-2x"></i></a>';
 						}else{
-							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
-									'<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1)"><i class="fas fa-traffic-light fa-2x"></i></a>';
+							opciones ='<a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Visualizar PDF" onclick="solicitud('+value.id+','+indice+')"><i class="far fa-file-pdf fa-2x"></i></a>  &nbsp'+
+									'<a class="'+claseObs+'" data-toggle="tooltip" data-placement="bottom" title="Observaciones" id="obs-'+value.id+'" data-observacion="'+value.observaciones+'" onclick="observaciones('+value.id+',1,'+indice+')"><i class="fas fa-traffic-light fa-2x"></i></a>';
 						}
 					break;
 				}
@@ -82,7 +82,7 @@ const pintaHistorial = ( tipo ) => {
 						'<td style="vertical-align: middle;">'+value.fechaInicio.split("T")[0]+" Al "+value.fechaFin.split("T")[0] +'</td>'+
 						'<td style="vertical-align: middle;" class="'+clase+'"><b>'+estado+'</b></td>'+
 						'<td style="vertical-align: middle;">'+
-							opciones+
+							opciones + ' &nbsp <a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar reporte" onclick="deleteReport('+value.id+')"><i class="far fa-trash-alt fa-2x"></i></a> &nbsp' +
 						'</td>'+
 					'</tr>');
 			});
@@ -92,10 +92,10 @@ const pintaHistorial = ( tipo ) => {
 		}
 	})
 }
-const solicitud = (id) => {
+const solicitud = (id,folio) => {
 	$("#modalPDF").modal({backdrop: 'static', keyboard: false, show: true})
 	$("#modalPDF").attr("data-id",id)
-	 document.getElementById("Cuerpo-Modal").innerHTML = "Se iniciara la descarga del reporte "+id
+	 document.getElementById("Cuerpo-Modal").innerHTML = "Se iniciara la descarga del reporte con folio: " + folio
 }
 const aceptar = () => {
 	let id = $("#modalPDF").attr("data-id")
@@ -238,7 +238,7 @@ const revision = (id,tipo) => {
 		}
 	})
 }
-const observaciones = (id,tipo) => {
+const observaciones = (id,tipo,folio) => {
 	//Tipo 1 pertenece a los jefes;rol=3
 	//Tipo 2 pertenece a empleados;rol=2	
 	let obs = $("#obs-"+id).attr("data-observacion")
@@ -246,7 +246,7 @@ const observaciones = (id,tipo) => {
 		$("#ObservacionesJefe").modal({backdrop: 'static', keyboard: false, show: true})
 		$("#ObservacionesJefe").attr("data-id",id)
 		$("#ObservacionesJefe").attr("data-tipo",tipo)
-		document.getElementById("head-boss").innerHTML = `Folio: ${id}`;
+		document.getElementById("head-boss").innerHTML = `Folio: ${folio}`;
 		if(obs=="null")
 			console.log("sin observaciones")
 		else
@@ -255,7 +255,7 @@ const observaciones = (id,tipo) => {
 		$("#ObservacionesEmpleado").modal({backdrop: 'static', keyboard: false, show: true})
 		$("#ObservacionesEmpleado").attr("data-id",id)
 		$("#ObservacionesEmpleado").attr("data-tipo",tipo)
-		document.getElementById("head-emp").innerHTML = `Folio: ${id}`;
+		document.getElementById("head-emp").innerHTML = `Folio: ${folio}`;
 		if(obs=="null")
 			console.log("sin observaciones")
 		else
@@ -296,4 +296,18 @@ const limpiaObservaciones = (tipo) =>{
 		$('#textEmpleado').val('');
 		$('#ObservacionesEmpleado').modal('hide')
 	}
+}
+const deleteReport = (id) => {
+	$.ajax({
+		url: "/documento/delete/"+id,
+		dataType:"json",
+		type:"put",
+		success:(response) => {
+			alert("Reporte eliminado con éxito.")
+			location.reload();
+		},
+		error:(response) => {
+			alert("A ocurrido un error al actualizar el registro")
+		}
+	})
 }
