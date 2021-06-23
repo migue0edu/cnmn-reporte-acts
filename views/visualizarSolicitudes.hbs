@@ -1,24 +1,93 @@
 {{> header }}
 <h1 class="mt-4 mr-3 ml-3 mb-4" style="color:#003653;">Historial de servicios</h1>
 <div class="row" >
-		<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-5">
-			<div class="table-responsive">
-				<table class="table table-sm table-striped table-hover">
-					<thead class="thead-dark  text-white text-center">
-						<tr>
-							<th width="10%" style="vertical-align:middle;" scope="col">Folio</th>
-							<th width="30%" style="vertical-align:middle;" scope="col">Nombre</th>
-							<th width="20%" style="vertical-align:middle;" scope="col">Área</th>
-							<th width="20%" style="vertical-align:middle;" scope="col">Fecha de solicitud</th>
-							<th width="20%" style="vertical-align:middle;" scope="col">Opciones</th>					
-						</tr>
-					</thead>
-					<tbody id="body-historial" style="background:white;">
-					</tbody>					
-				</table>
+	<div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-5">
+		<div class="table-responsive">
+			<table class="table table-sm table-striped table-hover">
+				<thead class="thead-dark  text-white text-center">
+					<tr>
+						<th width="10%" style="vertical-align:middle;" scope="col">Folio</th>
+						<th width="30%" style="vertical-align:middle;" scope="col">Nombre</th>
+						<th width="20%" style="vertical-align:middle;" scope="col">Área</th>
+						<th width="20%" style="vertical-align:middle;" scope="col">Fecha de solicitud</th>
+						<th width="20%" style="vertical-align:middle;" scope="col">Opciones</th>					
+					</tr>
+				</thead>
+				<tbody id="body-historialSolicitud" style="background:white;">
+				</tbody>					
+			</table>
+		</div>
+	</div>		
+</div>
+<div class="modal" tabindex="-1" id="modalSolicitud" role="dialog" data-id="">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title text-center"><i class="fas fa-laptop fa-2x"></i>&nbsp &nbsp Información extra</h4>
 			</div>
-		</div>		
+			<div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-12 text-center">
+						<h5 class="text-info">Folio: UDI-CNMN-</h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<table class="table table-sm table-striped table-hover">
+							<thead class="thead-dark  text-black text-center">
+								<tr>
+									<th  style="vertical-align:middle;" scope="col">Marca</th>
+									<td id="marca"></td>					
+								</tr>
+								<tr>
+									<th style="vertical-align:middle;" scope="col">Numero de serie</th>
+									<td id="serie"></td>
+								</tr>
+								<tr>
+									<th  style="vertical-align:middle;" scope="col">Modelo</th>
+									<td id="modelo"></td>
+								</tr>
+								<tr>
+									<th style="vertical-align:middle;" scope="col">Serial</th>
+									<td id="serial"></td>
+								</tr>
+								<tr>
+									<th style="vertical-align:middle;" scope="col">IP</th>
+									<td id="ip"></td>
+								</tr>
+								<tr>
+									<th style="vertical-align:middle;" scope="col">Tipo</th>
+									<td id="tipo"></td>
+								</tr>
+								<tr>
+									<th style="vertical-align:middle;" scope="col">Reparación</th>
+									<td id="reparacion"></td>
+								</tr>
+								<tr>
+									<th style="vertical-align:middle;" scope="col">Instalación</th>
+									<td id="instalacion"></td>
+								</tr>
+								<tr>
+									<th style="vertical-align:middle;" scope="col">Observaciones</th>
+									<td id="observaciones"></td>
+								</tr>
+							</thead>					
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="container-fluid">
+					<div class="row justify-content-center">
+						<div class="col-6">
+							<button type="button" class="btn btn-block btn-danger" onclick="cerrar()">Cerrar</button>
+						</div>				
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-    <div style="35px;"></div>
-    <script type="text/javascript" src="../public/js/historialSolicitudes.js"></script>	
-    {{> footer }}
+</div>
+<div style="35px;"></div>
+<script type="text/javascript" src="../public/js/historialSolicitudes.js"></script>	
+{{> footer }}
