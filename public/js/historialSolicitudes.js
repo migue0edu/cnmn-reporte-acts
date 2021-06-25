@@ -4,18 +4,18 @@ $(document).ready( () => {
 });
 const pintaHistorial = () => {
 	$.ajax({
-		url: "/documento/historial/solicitudes",
+		url: "/solicitudes/historial/",
 		dataType: "json",
 		type: "get",
 		success: (response) => {
 			$.each(response, function( index, value ) {
-			  	$("#body-historial").append(
+			  	$("#body-historialSolicitud").append(
 					'<tr class="text-center" style="vertical-align: middle;">'+
-						'<td style="vertical-align: middle;">UDI-CNMN'+indice+'</td>'+
-						'<td style="vertical-align: middle;">'+value.nombre+'</td>'+
+						'<td style="vertical-align: middle;">UDI-CNMN-'+value.folio+'</td>'+
+						'<td style="vertical-align: middle;" class="font-weight-bold">'+value.nombre+'</td>'+
                         '<td style="vertical-align: middle;">'+value.area+'</td>'+
 						'<td style="vertical-align: middle;">'+value.fecha.split("T")[0]+'</td>'+
-						'<td style="vertical-align: middle;"><a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar reporte" onclick="verSolicitud('+value.id+','+value.marca+','+value.serie+','+value.modelo+','+value.institucional+','+value.ip+','+value.tipo+','+value.reparacion+','+value.instalacion+','+value.observaciones+')"></td>'+
+						'<td style="vertical-align: middle;"><a class="text-danger" data-toggle="tooltip" data-placement="bottom" title="Observaciones" onclick="verSolicitud('+value.folio+',\''+value.marca+'\',\''+value.serie+'\',\''+value.modelo+'\',\''+value.institucional+'\',\''+value.ip+'\',\''+value.tipo+'\',\''+value.reparacion+'\',\''+value.instalacion+'\',\''+value.observaciones+'\',\''+value.laboratorio+'\')"><i style="color: #003653;" class="fas fa-desktop fa-2x"></i></a></td>'+
 					'</tr>');
 			});
 		},
@@ -24,9 +24,11 @@ const pintaHistorial = () => {
 		}
 	})
 }
-const verSolicitud = (id,marca,serie,modelo,serial,ip,tipo,reparacion,instalacion,observaciones) => {
+const verSolicitud = (folio,marca,serie,modelo,serial,ip,tipo,reparacion,instalacion,observaciones,laboratorio) => {
 	$('#modalSolicitud').modal('show')
 	document.getElementById("marca").innerHTML = marca;
+	document.getElementById("folio").innerHTML = 'Folio: UDI-CNMN-'+folio;
+	document.getElementById("laboratorio").innerHTML =  laboratorio;
 	document.getElementById("serie").innerHTML =  serie;
 	document.getElementById("modelo").innerHTML = modelo;
 	document.getElementById("serial").innerHTML = serial;

@@ -1,6 +1,19 @@
 $(document).ready( () => {
 	$('[data-toggle="tooltip"]').tooltip();
+	$("#fechaI").datetimepicker({
+		language:  'es',
+		format: "yyyy-mm-dd",
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+	});
+
 	$("#solicitud").submit( ()  => {
+		$("#btn-servicio").prop("disabled", true);
 		event.preventDefault();
 		let form = $("#solicitud").serializeArray();
 		$.ajax({
@@ -14,6 +27,7 @@ $(document).ready( () => {
 				window.location.assign("/views/solicitud")
 			},
 			error: (response) => {
+				$("#btn-servicio").prop("disabled", false);
 				alert('Error')
 			}
 		})

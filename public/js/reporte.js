@@ -163,9 +163,12 @@ $(document).ready( () => {
 	})
 });
 const finalizar = () => {
+	$("#btn-reporte").prop("disabled", true);
 	let NumAct = $("#filaTabla").attr("data-contador")
-	if(NumAct == "0")
+	if(NumAct == "0"){
 		alert("Ingrese alguna actividad")
+		$("#btn-reporte").prop("disabled", false);
+	}
 	else {
 		$.ajax({
 			url: "/documentos",
@@ -178,10 +181,13 @@ const finalizar = () => {
 					alert("Guardado con éxito")
 					pdf();
 					location.reload();
-				}else 
-					alert("Error al gusrdar el documento")				
+				}else{
+					$("#btn-reporte").prop("disabled", false);
+					alert("Error al guardar el documento");
+				}
 			},
 			error:(response) => {
+				$("#btn-reporte").prop("disabled", false);
 				alert(response)
 			}
 		})

@@ -62,6 +62,35 @@
     <div class="card ml-3 mr-3 mt-3 mb-3">
         <div class="card-header font-weight-bold">Datos del equipo solicitado</div>
         <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text maxInput">Folio</span>
+                        </div>
+                        <input type="text" name="folio" id="folio" class="form-control" minlength="1" maxlength="100" value="UDI-CMNM-" readonly="true">
+                        <input type="text" name="folio" id="folio" class="form-control" minlength="1" maxlength="100" value="" 
+                        required>
+                    </div>
+                </div>
+                <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text maxInput">Laboratorio</span>
+                        </div>
+                        <input type="text" name="laboratorio" id="laboratorio" class="form-control" minlength="1" maxlength="100" value="" 
+                        required>
+                    </div>
+                </div>
+                <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 control-label" >
+				    <div class="input-group  date input-group-sm mb-3" data-date=""  data-link-format="yyyy-mm-dd"> 
+					    <div class="input-group-prepend">
+					    	<span class="input-group-text maxInput">Fecha de solicitud</span>
+					    </div>
+					    <input class="form-control text-center" id="fechaI" name="fechaI" placeholder="YYYY-MM-DD" required>
+				    </div>	
+			    </div>
+            </div>
             <div class="row" id="datosEmp" >
                 <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
                     <div class="input-group input-group-sm mb-3">
@@ -147,7 +176,7 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-6">
-                    <button type="submit" class="btn btn-success btn-sm btn-block">Finalizar</button>
+                    <button id="btn-servicio" type="submit" class="btn btn-success btn-sm btn-block">Finalizar</button>
                 </div>
             </div>
         </div>
