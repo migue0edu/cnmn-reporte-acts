@@ -49,6 +49,33 @@ app.get('/views/password', function (req, res) {
   });
 });
 
+app.get('/views/solicitud', function (req, res) {
+  if( !req.session.userId ){
+    return res.redirect('/views/login');
+  }
+  getUserData( req.session.userId, (err, user) => {
+    if(err){
+      res.status(500).json({mensaje: err});
+    }
+    if(user){
+      res.render('solicitud',{user});
+    }
+  });
+});
+app.get('/views/visualizarSolicitudes', function (req, res) {
+  if( !req.session.userId ){
+    return res.redirect('/views/login');
+  }
+  getUserData( req.session.userId, (err, user) => {
+    if(err){
+      res.status(500).json({mensaje: err});
+    }
+    if(user){
+      res.render('visualizarSolicitudes',{user});
+    }
+  });
+});
+
 app.get('/views/historial', function (req, res) {
   if( !req.session.userId ){
     return res.redirect('/views/login');
